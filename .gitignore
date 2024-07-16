@@ -1,0 +1,2 @@
+# ignore python compile file
+__pycache__/
