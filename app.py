@@ -5,7 +5,7 @@ app = Flask(__name__)
 @app.route("/")
 def index():
     # use the file in the templates
-    return render_template("hello_world.html")
+    return render_template("index.html")
 
 # deal with 404 error
 @app.errorhandler(404)
