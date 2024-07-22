@@ -20,4 +20,7 @@
 
 ## Index.html
 
-主页的相关内容，用于存放了关于本站，关于自己，相关链接。近期的三篇文章的内容。
+个人网站主页，主要参考来自https://www.bmpi.com（包括格式和内容） 用于简单介绍自己
+考虑未来的feature并且使用Bootstrap5实现：
+1. dark mode / light mode swithc
+2. auto-scale in different screen
