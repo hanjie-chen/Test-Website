@@ -1,28 +1,28 @@
-/* 导航栏背景的颜色 */
-.navbar-custom {
-    background-color: #1F2125;
-}
-/* 导航栏字体颜色 */
-.navbar-custom .navbar-nav .nav-link {
-    color: #FFFFFF;
-}
-/* 自定义背景颜色 */
-.body_background {
-    background-color: #1A1C1F; /* 这里可以替换成您想要的颜色值 */
-}
-/* 设置body中文字的颜色 */
 body{
-    color: #DBDCE2;
-}
-/* 自定义按钮的样式 */
-.buttom_custom{
-    background-color: #356D4B;
-    color: #1A1C1F;
-}
-.custom_card{
-    background-color: #131313; /* 设置卡片的背景颜色 */
-    color: #DBDCE2;
-    border: 2px solid #DBDCE2; /* 设置卡片的边框宽度、颜色和样式 */
-    border-radius: 10px; /* 设置卡片的圆角 */
+    /* set body font color */
+    color: #DBDCE2 !important;
+    /* set body background color */
+    background-color: #1A1C1F;
 }
 
+/* 确保 navbar 和 footer 使用自定义背景色和字体颜色 */
+.navbar-custom {
+    background-color: #312b2b;
+    height: 8vh;
+}
+
+/* 导航栏字体颜色 */
+.navbar-custom .navbar-nav .nav-link {
+    color: #DBDCE2;
+}
+
+.main-content{
+    height: 87vh;
+}
+
+/* define the footer with the same  */
+.footer-custom {
+    /* background-color: #2f3c50; */
+    /* color: #DBDCE2; */
+    height: 5vh;
+}

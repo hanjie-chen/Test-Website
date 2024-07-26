@@ -82,3 +82,33 @@ bootstrap5/
 ## 字体Font
 
 中文使用苹方简体`PingFangSC`英文使用Jetbrain开发的IDE字体`Jetbrain Mono`并且提供2种格式的加载方式，让浏览器自行选择。
+
+## style.css 文件说明
+CSS 中选择器的不同类型及其作用：
+
+1. **元素选择器**（Element Selector）：
+   - `body` 是一个元素选择器，它直接选中 HTML 中的 `<body>` 元素，并应用样式规则到该元素及其所有子元素。
+   - 例如：
+     ```css
+     body {
+         color: #DBDCE2;
+     }
+     ```
+     这段代码会将整个页面中所有文字的颜色设置为 `#DBDCE2`，因为它是直接选中 `<body>` 元素。
+
+2. **类选择器**（Class Selector）：
+   - `.body_background` 是一个类选择器，它选中所有具有 `body_background` 类的元素，并应用样式规则到这些元素。
+   - 类选择器前面有一个点号（`.`），用于区分它是一个类选择器。
+   - 例如：
+     ```css
+     .body_background {
+         background-color: #1A1C1F;
+     }
+     ```
+     这段代码会将所有具有 `body_background` 类的元素的背景颜色设置为 `#1A1C1F`。
+
+### 作用与区别
+
+- **元素选择器**：直接选中指定的 HTML 元素并应用样式。它不需要前缀。例如，`body` 选择器会应用到 `<body>` 元素。
+- **类选择器**：选中所有具有指定类的元素，并应用样式。它需要用点号（`.`）作为前缀。例如，`.body_background` 会应用到所有具有 `body_background` 类的元素。
+

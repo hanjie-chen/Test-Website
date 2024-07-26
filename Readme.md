@@ -130,11 +130,12 @@ E:.
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}">
    
 </head>
-<body class="body_background">
+<body>
   <main>
-    <nav>
-      test
+    <nav class="navbar navbar-expand-sm navbar-custom fixed-top">
+      <!-- test -->
     </nav>
+    
     
     <div class="container-fluid min-vh-100 d-flex align-items-center justify-content-center p-5">
           <div class="content-wrapper">
@@ -150,14 +151,18 @@ E:.
     </div>
 
     <footer>
-      test
-    </footer>
-    
+      <!-- <div class="text-center">
+        <small>&copy; 2024 for Plain Personal Website</small>
+      </div> -->
+    </footer>  
+        
   </main>
  
   <!-- Bootstrap 5 JS Bundle with Popper -->
   <script src="{{ url_for('static', filename='bootstrap5/js/bootstrap.bundle.min.js') }}"></script>
 </body>
 </html>
+
+
 ```
-请问你能帮我编写关于nav和footer的部分吗？
+我想要添加一个nav bar和footer,但是想要的效果是在一整个屏幕显示，如下
