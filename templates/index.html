@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Plain Personal Website</title>
-     <!-- 网站图标 -->
-     <link rel="icon" href="/static/icon/favicon_point.ico" type="image/x-icon">
+    <!-- 网站图标 -->
+    <link rel="icon" href="/static/icon/favicon_point.ico" type="image/x-icon">
 
 
     <!-- Bootstrap 5 CSS -->
@@ -17,16 +17,19 @@
    
 </head>
 <body>
-  
+
   <main class="d-flex flex-column min-vh-100">
     <!-- Navbar -->
     <nav class="navbar navbar-expand-sm navbar-custom fixed-top">
-      <!-- my website headavatar -->
       <div class="container">
-        <a class="navbar-brand" href="{{ url_for('index')}}">
-          <img alt="avatar" class="rounded" style="width:3vw;" src="{{ url_for('static', filename='images/headavatar/head_avatar_problem.png') }}">
-        </a>
-    
+
+        <!-- put my personal website logo here -->
+        <!-- <a class="navbar-brand" href="{{ url_for('index')}}">
+          <img alt="头像" class="rounded" style="width:4vw;" src="{{ url_for('static', filename='images/headavatar/head_avatar_problem.png') }}">
+        </a> -->
+        <span>
+          Welcome to my personal website
+        </span>
         <div class="collapse navbar-collapse" id="mynavbar">
           <ul class="navbar-nav ms-auto">
             <!-- 文章页面就可以包含分类和标签了 不用另外起一个页面 -->
@@ -52,6 +55,9 @@
     <!-- Main Content -->
     <div class="main-content container-fluid flex-grow-1 d-flex align-items-center justify-content-center">
       <div class="content-wrapper">
+        <div class="container text-center mb-4">
+          <img alt="avatar" class="rounded" style="width: 8vw;" src="{{ url_for('static', filename='images/headavatar/head_avatar_problem.png') }}">
+        </div>
         <div class="content">
           <h5 class="mb-3">👋 hi, 我是翰杰, earth online的一名NPC</h5>
           <h5 class="mb-3">🎓 我是一名 emm…… 原神玩家（好吧，这么说是因为我不知道应该说什么）</h5>

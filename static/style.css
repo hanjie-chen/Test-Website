@@ -1,28 +1,29 @@
-body{
-    /* set body font color */
-    color: #DBDCE2 !important;
-    /* set body background color */
-    background-color: #1A1C1F;
+body {
+  /* set body font color */
+  color: #DBDCE2 !important;
+  /* set body background color */
+  background-color: #1A1C1F;
 }
 
 /* 确保 navbar 和 footer 使用自定义背景色和字体颜色 */
 .navbar-custom {
-    background-color: #312b2b;
-    height: 8vh;
+  /* the background color for test */
+  /* background-color: #312b2b; */
+  height: 6vh;
 }
 
 /* 导航栏字体颜色 */
 .navbar-custom .navbar-nav .nav-link {
-    color: #DBDCE2;
+  color: #DBDCE2;
 }
 
-.main-content{
-    height: 87vh;
+.main-content {
+  height: 88vh;
 }
 
 /* define the footer with the same  */
 .footer-custom {
-    /* background-color: #2f3c50; */
-    /* color: #DBDCE2; */
-    height: 5vh;
+  /* the background color for test */
+  /* background-color: #2f3c50; */
+  height: 6vh;
 }
