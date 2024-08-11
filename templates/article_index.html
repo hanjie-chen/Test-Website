@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plain Personal Website</title>
+    <title>Plain Aritcles</title>
     <!-- 网站图标 -->
     <link rel="icon" href="/static/icon/favicon_point.ico" type="image/x-icon">
 
@@ -22,28 +22,19 @@
     <nav class="navbar navbar-expand-sm navbar-custom fixed-top">
       <div class="container">
         <!-- put my personal website logo here -->
-        <!-- <a class="navbar-brand" href="{{ url_for('index')}}">
-          <img alt="头像" class="rounded" style="width:4vw;" src="{{ url_for('static', filename='images/headavatar/head_avatar_problem.png') }}">
-        </a> -->
+        <a class="navbar-brand" href="{{ url_for('index')}}">
+          <img alt="头像" class="rounded" style="width:4vw;" src="{{ url_for('static', filename='images/book.png') }}">
+        </a>
         <span>
-          Welcome to my personal website
+          Article
         </span>
         <div class="collapse navbar-collapse" id="mynavbar">
           <ul class="navbar-nav ms-auto">
             <!-- 文章页面就可以包含分类和标签了 不用另外起一个页面 -->
             <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('article_index') }}">
-                 Article
-              </a>
+              <input id="searchBox" type="text" class="form-control" placeholder="type / to search" aria-label="Search" />
             </li>
-            <li class="nav-item">
-              <span class="nav-link">|</span>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('about_me') }}">
-                 About Me
-              </a>
-            </li>
+
           </ul>
         </div>
       </div>
@@ -57,12 +48,8 @@
           <img alt="avatar" class="rounded" style="width: 8vw;" src="{{ url_for('static', filename='images/headavatar/head_avatar_problem.png') }}">
         </div>
         <div class="content">
-          <h5 class="mb-3">👋 hi, 我是翰杰, earth online的一名NPC</h5>
-          <h5 class="mb-3">🎓 我是一名 emm…… 原神玩家（好吧，这么说是因为我不知道应该说什么）</h5>
-          <h5 class="mb-3">💻 我正在使用 Python Flask 和 Bootstrap 5 构建个人网站前端部分</h5>
-          <h5 class="mb-3">🌟 我对二次元充满热情，省流，宅男</h5>
-          <h5 class="mb-3">🚀 我的长期目标是不工作，每天可以自由的支配时间，尝试自己感兴趣的事情</h5>
-          <h5 class="mb-3">📫 联系我：<a href="mailto:hanjiechen@outlook.com">hanjie-chen@outlook.com</a></h5>
+          <h5 class="mb-3">list articles here</h5>
+
         </div>
       </div> 
     </div>
@@ -77,6 +64,8 @@
   </main>
   <!-- Bootstrap 5 JS Bundle with Popper -->
   <script src="{{ url_for('static', filename='bootstrap5/js/bootstrap.bundle.min.js') }}"></script>
+  <!-- 引入自定义的搜索框 JS -->
+  <script src="{{ url_for('static', filename='search.js') }}"></script>
 </body>
 </html>
 

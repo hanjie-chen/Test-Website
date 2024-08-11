@@ -16,7 +16,7 @@ body {
 .navbar-custom .navbar-nav .nav-link {
   color: #DBDCE2;
 }
-
+/* main-contnet hight */
 .main-content {
   height: 88vh;
 }
@@ -26,4 +26,14 @@ body {
   /* the background color for test */
   /* background-color: #2f3c50; */
   height: 6vh;
+}
+
+/* define article page search box */
+#searchBox {
+  transition: width 0.3s ease;
+  width: 20vw; /* 初始宽度 */
+}
+
+#searchBox.expanded {
+  width: 70vw; /* 扩展后的宽度 */
 }

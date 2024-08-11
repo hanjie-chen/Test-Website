@@ -31,7 +31,7 @@
 
 导航栏navigation bar
 
-- `<nav class="navbar navbar-expand-sm navbar-custom fixed-top">`: 使用 Bootstrap 的 `navbar` 类创建一个响应式导航栏，`fixed-top` 类固定在页面顶部。
+- `<nav class="navbar navbar-expand-sm navbar-custom fixed-top">`: 使用 Bootstrap 的 `navbar` 类创建一个响应式导航栏，`fixed-top` 类固定在页面顶部，其中`navbar-custom`设置其高度
 - `<div class="container">`: 使用 Bootstrap 的 `container` 类，确保导航栏中的内容居中对齐。
 - `<span>`: 显示网站标题。
 - `<div class="collapse navbar-collapse" id="mynavbar">`: 包含导航链接的容器，响应式时可以折叠。
