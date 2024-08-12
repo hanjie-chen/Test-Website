@@ -35,5 +35,5 @@ body {
 }
 
 #searchBox.expanded {
-  width: 70vw; /* 扩展后的宽度 */
+  width: 60vw; /* 扩展后的宽度 */
 }

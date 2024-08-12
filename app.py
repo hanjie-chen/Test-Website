@@ -4,6 +4,13 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 
+# configure the database uri
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database/articles.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+# 初始化数据库
+db = SQLAlchemy(app)
+
 @app.route("/")
 def index():
     # use the file in the templates

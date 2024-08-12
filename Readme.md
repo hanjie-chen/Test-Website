@@ -115,37 +115,28 @@ SQLite作为一个轻量级的数据库管理系统，通常已经包含在Pytho
 
 因此，在你的Flask项目中，只需要安装Flask-SQLAlchemy来处理数据库操作，而不需要特别安装SQLite。SQLite数据库文件会在你第一次运行应用时自动创建。
 
+## Configure sqlite with SQLAlchemy
+这两行代码是Flask应用中配置SQLAlchemy的关键部分。让我为你详细解释它们的作用：
+
+### 1. `app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///your_database_name.db'`
+
+### 2. `app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False`
+
+- **作用**：这行代码用于禁用SQLAlchemy的事件系统。
+  
+- **为什么设置为False**：当设置为`True`时，SQLAlchemy会跟踪对象的修改并发出信号。这对应用性能有一定影响，并且在Flask-SQLAlchemy的最新版本中，它会发出一个弃用警告。因此，通常将其设置为`False`，以避免不必要的开销和警告。
+
+### 数据库URI的生成
+
+- **自动生成**：如果你使用的是SQLite，并且数据库文件名是固定的，你只需要在代码中指定这个URI。SQLite数据库文件会在第一次访问时自动生成。
+  
+- **其他数据库**：如果你使用其他数据库（如MySQL、PostgreSQL等），你需要根据数据库的连接信息生成适当的URI。格式通常是：`dialect+driver://username:password@host:port/database`.
+
+通过这些配置，Flask-SQLAlchemy可以知道如何连接和操作你的数据库。你只需根据你的需求调整数据库文件名或连接信息即可。
+
 
 
 # Next Action
-
-在你的Flask项目中使用SQLite数据库可以通过Flask-SQLAlchemy扩展来简化数据库的操作。以下是如何在你的项目中集成SQLite数据库的步骤：
-
-### 1. 安装Flask-SQLAlchemy
-
-首先，确保你已经安装了Flask-SQLAlchemy。你可以使用pip来安装：
-
-```bash
-pip install Flask-SQLAlchemy
-```
-
-### 2. 配置数据库
-
-在你的`main.py`中，配置SQLite数据库。你需要在Flask应用中添加数据库的URI配置。
-
-```python
-from flask import Flask, render_template, request
-from flask_sqlalchemy import SQLAlchemy
-
-app = Flask(__name__)
-
-# 配置数据库URI
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///your_database_name.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-# 初始化数据库
-db = SQLAlchemy(app)
-```
 
 ### 3. 定义模型
 
