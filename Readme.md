@@ -28,66 +28,7 @@ use that website to get icon
 
 # LLM Prompt
 
-## fornt end
 
-我在搭建一个个人网站，使用python flask框架，前端采用Bootstrap5，目前正在搭建前端部分。这是我目前的项目目录结构
-
-```powershell
-├─static
-│  ├─bootstrap5
-│  │  ├─css
-│  │  └─js
-│  ├─font
-│  │  ├─JetBrainsMono
-│  │  └─PingFangSC
-│  ├─icon
-│  └─images
-│      └─headavatar
-├─templates
-└─__pycache__
-
-and the file in the templates
-Mode                 LastWriteTime         Length Name
-----                 -------------         ------ ----
--a----         8/11/2024   4:27 PM            319 404.html
--a----         8/11/2024   4:32 PM            171 about_me.html
--a----         8/11/2024   4:31 PM            174 article_index.html
--a----         7/24/2024  12:27 AM            288 hello_world.html
--a----         8/11/2024   4:36 PM           3457 index.html
--a----         8/11/2024   4:21 PM           4127 TemplatesOverview.md
-```
-这是我现在正在编写index.html界面
-```
-
-```
-这是我写的main.py
-```
-from flask import Flask, render_template, request
-
-app = Flask(__name__)
-
-@app.route("/")
-def index():
-    # use the file in the templates
-    return render_template("index.html")
-
-@app.route("/Articles")
-def article_index():
-    return render_template("article_index.html")
-
-@app.route("/AboutMe")
-def about_me():
-    return render_template("about_me.html")
-
-# deal with 404 error
-@app.errorhandler(404)
-def page_not_found(error_info):  # 接受异常对象作为参数
-    # print(f"Error: {error_info}, Description: {error_info.description}, URL: {request.url}") # 打印错误信息到控制台
-    return render_template('404.html', error = error_info, url = request.url), 404  # 将错误信息传递给模板
-
-```
-
-但是我发现每当我运行
 
 ## Backend
 
@@ -138,19 +79,9 @@ SQLite作为一个轻量级的数据库管理系统，通常已经包含在Pytho
 
 # Next Action
 
-### 3. 定义模型
+需要好好的思考一下为什么需要2张表来实现这个功能
 
-在Flask-SQLAlchemy中，模型是Python类，继承自`db.Model`。你需要在项目中定义你的数据模型。例如，如果你有一个文章表：
 
-```python
-class Article(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(100), nullable=False)
-    content = db.Column(db.Text, nullable=False)
-
-    def __repr__(self):
-        return f'<Article {self.title}>'
-```
 
 ### 4. 创建数据库
 
