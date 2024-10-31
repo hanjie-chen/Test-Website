@@ -1,21 +1,16 @@
 from flask import Flask, render_template, request
-from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.orm import DeclarativeBase
-
-class Base(DeclarativeBase):
-    pass
-
-db = SQLAlchemy(model_class=Base)
-
+from models import db, Article_Meta_Data
 
 app = Flask(__name__)
 
 # configure the database uri
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///project.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-# 初始化数据库
+# 初始化应用
 db.init_app(app)
+
+with app.app_context():
+    db.create_all()
 
 @app.route("/")
 def index():
