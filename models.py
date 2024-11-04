@@ -19,26 +19,26 @@ class Article_Meta_Data(db.Model):
     # 文章标题 最长不超过100个字 默认nullable=False
     title: Mapped[str] = mapped_column(String(100))
 
-    # 文章发布时间
-    rollout_date: Mapped[date] = mapped_column(Date)
-
-    # 表示文章最后更新的日期 只精确到年月日
-    ultimate_modified_date: Mapped[date] = mapped_column(Date)
-
     # 文章作者 最长不超过50个字符
     author: Mapped[str] = mapped_column(String(50))
 
     # 文章指导者 存在Optional 默认nullable=True
     instructor: Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
-
-    # 文章内容简介
-    brief_introduction: Mapped[str] = mapped_column(Text)
-
+   
     # 文章封面链接
     cover_image_url: Mapped[str] = mapped_column(String(100))
 
+    # 文章发布时间
+    rollout_date: Mapped[date] = mapped_column(Date)
+
     # 文章分类
     category: Mapped[str] = mapped_column(String(100))
+
+    # 表示文章最后更新的日期 只精确到年月日 --> 使用文件最后修改日期 不显式指定
+    ultimate_modified_date: Mapped[date] = mapped_column(Date)    
+
+    # 文章内容简介
+    brief_introduction: Mapped[str] = mapped_column(Text)
     
     # 文章分类 使用 mptt 待开发和测试
     # category_id = db.Column(db.Integer, db.ForeignKey('category.id'), nullable=False)
