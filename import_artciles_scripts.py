@@ -3,7 +3,8 @@ import os
 import frontmatter
 import re
 from models import db, Article_Meta_Data
-from datetime import date, datetime
+from datetime import date
+from sqlalchemy import select
 
 Articles_Directory = "/home/Plain/Personal_Project/Test_Articles_Data"
 
@@ -58,7 +59,9 @@ def import_articles():
         )
 
         # check if there are same title articles
-        exist_check = Article_Meta_Data.query.filter_by(title = article_metadata.title).first()
+        # exist_check = Article_Meta_Data.query.filter_by(title = article_metadata.title).first()
+        exist_check = db.session.scalar(select(Article_Meta_Data).where(Article_Meta_Data.title == article_metadata.title))
+        exist_check = db.session.execute(db.select)
         if exist_check:
             print(f'Article {article_metadata.title} exists, please check again, skipped')
             continue
