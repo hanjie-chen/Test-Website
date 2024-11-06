@@ -4,10 +4,10 @@ import frontmatter
 import re
 from models import db, Article_Meta_Data
 from datetime import date
-from sqlalchemy import select
 
 Articles_Directory = "/home/Plain/Personal_Project/Test_Articles_Data"
 
+# consider tranfer in teh Articles_Directory to the function
 def import_articles():
     # 获取所有.md files
     md_files = [f for f in os.listdir(Articles_Directory) if f.endswith('.md')]
@@ -60,10 +60,13 @@ def import_articles():
 
         # check if there are same title articles
         # exist_check = Article_Meta_Data.query.filter_by(title = article_metadata.title).first()
-        exist_check = db.session.scalar(select(Article_Meta_Data).where(Article_Meta_Data.title == article_metadata.title))
-        exist_check = db.session.execute(db.select)
+        exist_check = db.session.execute(
+            db.select(Article_Meta_Data)
+            .where(Article_Meta_Data.title == article_metadata.title)
+            )
+        # consider realize a git-like system to track the new file and chagned file, only 
         if exist_check:
-            print(f'Article {article_metadata.title} exists, please check again, skipped')
+            print(f'Article {article_metadata.title} exists in database, please check again, skipped')
             continue
 
         db.session.add(article_metadata)
@@ -71,3 +74,7 @@ def import_articles():
 
     db.session.commit()
     print("All articles have been imported.")
+
+with app.app_context():
+    import_articles()
+    

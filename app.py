@@ -5,6 +5,9 @@ app = Flask(__name__)
 
 # configure the database uri
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///project.db'
+# use memory as test
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'
+
 
 # 初始化应用
 db.init_app(app)
