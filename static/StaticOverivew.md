@@ -114,3 +114,35 @@ CSS 中选择器的不同类型及其作用：
 
 ## search.js 文件说明
 用于触发 search bar自动变长，参考github search bar,可能还需要改进
+
+您提出了一个非常好的问题，这让我们可以深入了解SVG的本质。让我来详细解答您的疑问：
+
+## SVG的本质：
+   是的，SVG（Scalable Vector Graphics）的本质确实是一段代码。具体来说，它是一种基于XML的标记语言，用于描述二维矢量图形。
+
+2. SVG的工作原理：
+   - SVG使用XML格式的文本来描述图像的各个部分。
+   - 浏览器或其他支持SVG的软件会解析这些代码，然后根据描述绘制出图形。
+   - 这就是为什么SVG图像可以无损放大 - 因为它们是通过数学公式定义的，而不是像素点。
+
+3. 关于 "http://www.w3.org/2000/svg"：
+   - 这个URL出现在SVG的xmlns属性中：`xmlns="http://www.w3.org/2000/svg"`
+   - xmlns 代表 "XML Namespace"（XML命名空间）。
+   - 这个URL不是一个你需要访问的网页，而是一个标识符，用来告诉解析器这个文档使用的是SVG规范。
+   - W3C（World Wide Web Consortium）是制定Web标准的国际组织，他们定义了SVG规范。
+
+4. SVG代码的主要部分：
+   - `<svg>` 是根元素，定义了SVG图像的容器。
+   - `width` 和 `height` 属性定义了SVG的尺寸。
+   - `viewBox` 定义了SVG坐标系统。
+   - `<path>` 元素用于定义路径，这里描述了房子的形状。
+   - `d` 属性包含了一系列命令和坐标，定义了实际的图形路径。
+
+6. 使用SVG的优势：
+   - 文件大小通常较小。
+   - 可以通过CSS或JavaScript动态修改。
+   - 适合需要在不同设备和分辨率下保持清晰的场景。
+
+总之，SVG确实是一种代码形式，它描述了如何绘制图形。浏览器和其他支持SVG的软件会解释这段代码并渲染出相应的图形。这种基于代码的图形描述方式使得SVG具有很高的灵活性和可扩展性。
+
+[SVG website](https://www.svgrepo.com/vectors/home/)

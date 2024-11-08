@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request
 from models import db, Article_Meta_Data
+from import_articles_scripts import import_articles
 
 app = Flask(__name__)
 
@@ -8,12 +9,16 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///project.db'
 # use memory as test
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'
 
+# articles directory
+Articles_Directory = "/home/Plain/Personal_Project/Test_Articles_Data"
 
 # 初始化应用
 db.init_app(app)
 
 with app.app_context():
+    db.drop_all()
     db.create_all()
+    import_articles(db, Articles_Directory)
 
 @app.route("/")
 def index():
@@ -22,7 +27,10 @@ def index():
 
 @app.route("/Articles")
 def article_index():
-    return render_template("article_index.html")
+    # 从数据库中获取所有文章
+    articles = db.session.execute(db.select(Article_Meta_Data)).scalars().all()
+    return render_template("article_index.html", articles=articles)
+
 
 @app.route("/AboutMe")
 def about_me():

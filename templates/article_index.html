@@ -21,38 +21,63 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-sm navbar-custom fixed-top">
       <div class="container">
-        <!-- put my personal website logo here -->
-        <a class="navbar-brand" href="{{ url_for('index')}}">
-          <img alt="头像" class="rounded" style="width:2vw;" src="{{ url_for('static', filename='images/book.png') }}">
-        </a>
-        <span>
-          Article
-        </span>
-        <div class="collapse navbar-collapse" id="mynavbar">
-          <ul class="navbar-nav ms-auto">
-            <!-- 文章页面就可以包含分类和标签了 不用另外起一个页面 -->
-            <li class="nav-item">
-              <input id="searchBox" type="text" class="form-control" placeholder="type / to search" aria-label="Search" />
-            </li>
-
-          </ul>
-        </div>
+          <div class="d-flex align-items-center">
+              <!-- Home链接 -->
+              <a href="{{ url_for('index')}}" class="text-decoration-none">
+                  Home
+              </a>
+            
+              <!-- 分隔符 -->
+              <span class="mx-3">|</span>
+      
+              <!-- Article部分 -->
+              <div class="d-flex align-items-center">
+                    <img alt="文章" 
+                        class="rounded me-2" 
+                        style="width:1.5vw; height: auto;" 
+                        src="{{ url_for('static', filename='svg/book-open.svg') }}" >
+                    <span>Article</span>
+              </div>
+          </div>
+      
+            <div class="collapse navbar-collapse" id="mynavbar">
+                <ul class="navbar-nav ms-auto">
+                    <!-- 文章页面就可以包含分类和标签了 不用另外起一个页面 -->
+                    <li class="nav-item">
+                        <input id="searchBox" type="text" class="form-control" placeholder="type / to search" aria-label="Search" />
+                    </li>
+                </ul>
+            </div>
       </div>
     </nav>
     
-
     <!-- Main Content -->
     <div class="main-content container-fluid flex-grow-1 d-flex align-items-center justify-content-center">
-      <div class="content-wrapper">
-        <div class="container text-center mb-4">
-          <img alt="avatar" class="rounded" style="width: 8vw;" src="{{ url_for('static', filename='images/headavatar/head_avatar_problem.png') }}">
-        </div>
-        <div class="content">
-          <h5 class="mb-3">list articles here</h5>
-
-        </div>
-      </div> 
-    </div>
+        <div class="content-wrapper">
+          <!-- <div class="container text-center mb-4">
+            <img alt="avatar" class="rounded" style="width: 8vw;" src="{{ url_for('static', filename='images/headavatar/head_avatar_problem.png') }}">
+          </div> -->
+          <div class="content">
+            <h5 class="mb-3">文章列表</h5>
+            <div class="row">
+              {% for article in articles %}
+                <div class="col-md-4 mb-4">
+                  <div class="card">
+                    <img src="{{ article.cover_image_url }}" class="card-img-top" alt="{{ article.title }}">
+                    <div class="card-body">
+                      <h5 class="card-title">{{ article.title }}</h5>
+                      <p class="card-text">{{ article.brief_introduction[:100] }}...</p>
+                      <p class="card-text"><small class="text-muted">作者: {{ article.author }} | 发布日期: {{ article.rollout_date }}</small></p>
+                      <!-- 这里可以添加一个链接到文章详情页 -->
+                      <a href="#" class="btn btn-primary">阅读更多</a>
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div> 
+      </div>
 
     <!-- Footer -->
     <footer class="footer-custom py-3 ">

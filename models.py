@@ -12,7 +12,7 @@ db = SQLAlchemy(model_class=Base)
 # 文章元数据
 class Article_Meta_Data(db.Model):
     # 指定数据模型在数据库中的表名称 如果未指定那么为类名称的小写
-    __tablename__ = 'article_meta_date'
+    __tablename__ = 'article_meta_data'
     # 主键 但是无需为其赋值 SQLite数据库会自动为其生成一个唯一的值
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
 
@@ -41,6 +41,8 @@ class Article_Meta_Data(db.Model):
     brief_introduction: Mapped[str] = mapped_column(Text)
     
     # 文章分类 使用 mptt 待开发和测试
+    # 关于category 在metadata中并不显示指定 而是根据路径来 比如说 ~/PersonalArticles/PythonLearn/PythonPackage/Basic.md
+    # 那么这篇Basic.md 的category其实就是 PythonLearn --> PythonPackage
     # category_id = db.Column(db.Integer, db.ForeignKey('category.id'), nullable=False)
     # category = db.relationship('Category')
 
