@@ -37,3 +37,22 @@ use that website to get icon
 
 请你在接下来的对话中牢记这些信息。如果你已经记住，请你只回答“明白”
 
+# next action
+
+artilces meta date 加上一条rendered html file name, 用来定位html的位置
+
+在路由函数中直接从数据库中拿去rendered html file name
+
+在rendered_artilces 文件夹中平铺所有的文件，不需要创建文件夹的树形结构，方便路由函数拿取文件
+
+# database next action
+
+category 并不手动指定，而是随着路径一级一级往下，自动记录路径作为 文章的 category
+
+
+# rendered articles folder && markdown_render_scripts.py
+
+rendered html file name use database id as file name, for example 2313.html
+
+
+

@@ -10,9 +10,9 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///project.db'
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'
 
 # articles directory
-Articles_Directory = "/home/Plain/Personal_Project/Test_Articles_Data"
+Articles_Directory = "/home/Plain/Personal_Project/articles-data-test"
 # rendered articles directory(which is html)
-Rendered_Articles = "./rendered_articles/"
+Rendered_Articles = "/rendered_articles/"
 
 # register teh rendered_articles as static folder
 app.add_url_rule(Rendered_Articles, endpoint="Articles", view_func=lambda filename: send_from_directory(Rendered_Articles, filename))
@@ -23,7 +23,7 @@ db.init_app(app)
 with app.app_context():
     db.drop_all()
     db.create_all()
-    import_articles(db, Articles_Directory)
+    import_articles(Articles_Directory, db)
 
 @app.route("/")
 def index():

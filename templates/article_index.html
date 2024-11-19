@@ -67,7 +67,11 @@
                     <div class="card-body">
                       <h5 class="card-title">{{ article.title }}</h5>
                       <p class="card-text">{{ article.brief_introduction[:100] }}...</p>
-                      <p class="card-text"><small class="text-muted">作者: {{ article.author }} | 发布日期: {{ article.rollout_date }}</small></p>
+                      <p class="card-text">
+                        <small class="text-muted">
+                            作者: {{ article.author }} | 发布日期: {{ article.rollout_date }} | category: {{ article.category }}
+                        </small>
+                      </p>
                       <!-- 这里可以添加一个链接到文章详情页 -->
                       <a href="#" class="btn btn-primary">阅读更多</a>
                     </div>
