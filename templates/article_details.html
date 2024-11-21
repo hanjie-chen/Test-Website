@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ article.title }} - Plain Articles</title>
+    <link rel="icon" href="/static/icon/favicon_point.ico" type="image/x-icon">
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap5/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='font/font.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-sm navbar-custom fixed-top">
+        <!-- ... navbar content ... -->
+    </nav>
+
+    <main style="margin-top: 60px;"> <!-- Add top margin to prevent navbar overlap -->
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 offset-md-2">
+                    <article>
+                        <header class="mb-4">
+                            <h1 class="fw-bolder mb-1">{{ article.title }}</h1>
+                            <div class="text-muted fst-italic mb-2">
+                                作者: {{ article.author }} | 发布日期: {{ article.rollout_date }}
+                            </div>
+                            <div class="badge bg-secondary text-decoration-none link-light">
+                                {{ article.category }}
+                            </div>
+                        </header>
+                        
+                        <!-- Article content -->
+                        <div class="article-content">
+                            <iframe id="article-iframe" src="{{ article_content_path }}" style="width: 100%; border: none;"></iframe>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer-custom py-3 mt-4">
+        <div class="container text-center">
+            <span>&copy; 2024 for Plain Personal Website</span>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='bootstrap5/js/bootstrap.bundle.min.js') }}"></script>
+    
+    <!-- Improved iframe resize script -->
+    <script>
+        function resizeIframe(obj) {
+            // Add a small delay to ensure content is fully loaded
+            setTimeout(function() {
+                obj.style.height = obj.contentWindow.document.documentElement.scrollHeight + 'px';
+            }, 100);
+        }
+
+        // Add event listener to handle dynamic content changes
+        window.addEventListener('load', function() {
+            var iframe = document.getElementById('article-iframe');
+            resizeIframe(iframe);
+            
+            // Add resize listener to handle window size changes
+            window.addEventListener('resize', function() {
+                resizeIframe(iframe);
+            });
+        });
+    </script>
+</body>
+
+</html>

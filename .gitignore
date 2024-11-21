@@ -1,2 +1,5 @@
 # ignore python compile file
 __pycache__/
+
+# ignore the generated html file
+rendered_articles/
