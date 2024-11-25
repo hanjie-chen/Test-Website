@@ -1,24 +1,19 @@
-from flask import Flask, render_template, request, send_from_directory, abort
+from flask import Flask, render_template, request, send_from_directory, abort, url_for
 from models import db, Article_Meta_Data
 from import_articles_scripts import import_articles
 import os
+
+from config import Articles_Directory, Rendered_Articles
+
 
 app = Flask(__name__)
 
 # configure the database uri
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///project.db'
-# use memory as test
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'
-
-# articles directory
-Articles_Directory = "/home/Plain/Personal_Project/articles-data-test"
-# Rendered articles directory (relative to project root)
-Rendered_Articles = "rendered_articles"
-
-# Configure static folders
-app.static_folder = 'static'  # default static folder for CSS, JS, etc.
 # Register rendered_articles as additional static folder
 app.config['RENDERED_ARTICLES_FOLDER'] = os.path.join(app.root_path, Rendered_Articles)
+
+
 # 注册rendered_articles为静态文件夹
 app.add_url_rule('/rendered_articles/<path:filename>',
                  endpoint='rendered_articles',
@@ -65,11 +60,11 @@ def view_article(article_id):
         abort(404)
     
     # 转换category中的/为-以匹配文件系统路径
-    category_path = article.category.replace('/', '-')
+    category_path = article.category.replace(os.sep, '-')
     
     # 构建相对于/rendered_articles的路径
     html_filename = f"{article_id}.html"
-    relative_path = f"{category_path}/{html_filename}"
+    html_path = f"{category_path}{os.sep}{html_filename}"
     
     # 检查文件是否存在
     if not os.path.exists(os.path.join(app.config['RENDERED_ARTICLES_FOLDER'], category_path, html_filename)):
@@ -78,7 +73,8 @@ def view_article(article_id):
     # 返回模板，使用相对路径
     return render_template('article_details.html', 
                          article=article,
-                         article_content_path=f"/rendered_articles/{relative_path}")
+                         article_content_path = url_for(Rendered_Articles, filename=html_path)
+                         )
 
 
 # 在路由函数之前添加这些调试代码

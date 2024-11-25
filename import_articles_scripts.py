@@ -4,6 +4,7 @@ import frontmatter
 import shutil
 from datetime import date
 from flask_sqlalchemy import SQLAlchemy
+from config import Rendered_Articles
 from models import Article_Meta_Data
 from markdown_render_scripts import render_markdown_to_html
 
@@ -12,7 +13,7 @@ from markdown_render_scripts import render_markdown_to_html
 def get_dst_path(current_dir: str, root_dir: str):
     """ get the path of rendered file  """
     relative_path = os.path.relpath(current_dir, root_dir)
-    destination_path = os.path.join('rendered_articles', relative_path.replace(os.sep, '-'))
+    destination_path = os.path.join(Rendered_Articles, relative_path.replace(os.sep, '-'))
     return destination_path
 
 def import_articles(root_dir: str, db: SQLAlchemy):
@@ -55,6 +56,9 @@ def import_articles(root_dir: str, db: SQLAlchemy):
 def process_article(md_filename: str, current_dir: str, root_dir: str, db: SQLAlchemy):
     """deal with single .md file"""
 
+    # the path store the rendered file
+    output_path = get_dst_path(current_dir, root_dir)
+
     md_path = os.path.join(current_dir, md_filename)
     with open(md_path, 'r', encoding='utf-8') as f:
         article = f.read()
@@ -94,13 +98,17 @@ def process_article(md_filename: str, current_dir: str, root_dir: str, db: SQLAl
     rel_path = os.path.relpath(md_path, root_dir)
     article_category = os.path.split(rel_path)[0]
 
+    # generate true cover_image_url
+    raw_image_path = metadata.get('CoverImage', 'unknown')
+    cover_image_path = os.path.join(output_path, raw_image_path[2:])
+
     # create database models instance
     article_metadata = Article_Meta_Data(
         title=metadata.get('Title', 'Untitled'),
         author=metadata.get('Author', 'Plain'),
         instructor=metadata.get('Instructor'),
-        cover_image_url=metadata.get('CoverImage', 'unknown'),
         rollout_date=metadata.get('RolloutDate', date.today()),
+        cover_image_url=cover_image_path,
         category=article_category,
         ultimate_modified_date=file_last_modified_time,
         brief_introduction=brief_intro_text
@@ -120,9 +128,9 @@ def process_article(md_filename: str, current_dir: str, root_dir: str, db: SQLAl
         return
     
     db.session.add(article_metadata)
-    # to get the database primary key
+    # flush() to get the database primary key
     db.session.flush()
-    print(f'Article {article_metadata.title} added')
+    print(f'Article {article_metadata.category}/{article_metadata.title} added')
 
     html_filename = article_metadata.id
-    render_markdown_to_html(body_part, html_filename, get_dst_path(current_dir, root_dir))
+    render_markdown_to_html(body_part, html_filename, output_path)
