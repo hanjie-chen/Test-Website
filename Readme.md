@@ -6,17 +6,6 @@ Now I trying to develop the backend part of my website, I'd to choose the SQLite
 
 
 
-# About the requirements
-
-```
-markdown2[all]
-Flask >= 3.x
-Flask-SQLalchemy >= 3.x
-SQLAlchemy >= 2.x
-frontmatter
-```
-
-
 # About the website icon design
 
 [Yesicon - 精选全球高品质、开源、免费的矢量图标库](https://yesicon.app/?lang=zh-hans)
