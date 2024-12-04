@@ -17,4 +17,4 @@ COPY . .
 EXPOSE 5000
 
 # 启动命令
-CMD ["python", "app.py"]
+CMD ["flask", "run", "--host=0.0.0.0"]

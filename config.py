@@ -1,6 +1,6 @@
-# const configuration
+import os
 
-# articles directory
-Articles_Directory = "/home/Plain/Personal_Project/articles-data-test"
+# get test data dir from env, default is '/app/articles-data-test'
+Articles_Directory = os.environ.get('ARTICLES_DIRECTORY', '/app/articles-data-test')
 # Rendered articles directory (relative to project root)
 Rendered_Articles = "rendered_articles"
