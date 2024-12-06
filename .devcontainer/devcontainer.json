@@ -1,5 +1,5 @@
 {
-    "name": "Python Flask Dev Container",
+    "name": "Flask-Container",
     
     // 使用 Docker Compose 进行配置
     "dockerComposeFile": "../compose.yml",

@@ -3,3 +3,9 @@ __pycache__/
 
 # ignore the generated html file
 rendered_articles/
+
+# ignore instance folder
+instance/
+
+# igonre the docker bind mount folder
+articles-data-test/
