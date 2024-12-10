@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    {% block title %}
+
+    {% endblock%}
+
+    <!-- 网站图标 -->
+    <link rel="icon" href="/static/icon/favicon_point.ico" type="image/x-icon">
+
+
+    <!-- Bootstrap 5 CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap5/css/bootstrap.min.css') }}">
+    <!-- use the pointed font -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='font/font.css') }}">
+    <!-- pointed body color -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='card.css')}}">
+
+</head>
+
+<body>
+    <main class="d-flex flex-column min-vh-100">
+        <!-- Navbar -->
+        {% block navbar%}
+
+        {% endblock %}
+
+        <!-- Main Content -->
+        {% block main_content%}
+
+        {% endblock %}
+
+        <!-- Footer -->
+        <footer class="footer-custom py-3 ">
+            <div class="container text-center">
+                <span>&copy; 2024 for Plain Personal Website</span>
+            </div>
+        </footer>
+
+    </main>
+    <!-- Bootstrap 5 JS Bundle with Popper -->
+    <script src="{{ url_for('static', filename='bootstrap5/js/bootstrap.bundle.min.js') }}"></script>
+    {% block script %}
+
+    {% endblock %}
+</body>
+
+</html>

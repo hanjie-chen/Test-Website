@@ -3,15 +3,16 @@
 @font-face {
     font-family: 'JetBrainsMono';
     src: url('./JetBrainsMono/JetBrainsMono-Regular.woff2') format('woff2'),
-         url('./JetBrainsMono/JetBrainsMono-Regular.ttf') format('truetype');
+        url('./JetBrainsMono/JetBrainsMono-Regular.ttf') format('truetype');
 
-  }
+}
+
 /* 中文 */
 @font-face {
     font-family: 'PingFangSC';
     src: url('./PingFangSC/PingFangSCRegular.woff2') format('woff2'),
-         url('./PingFangSC/PingFangSCRegular.ttf') format('truetype');
-  }
+        url('./PingFangSC/PingFangSCRegular.ttf') format('truetype');
+}
 
 /* 优先加载JetrainsMono字体 如果字符不能使用其加载 那么使用苹方简体加载 如果还是不行加载系统默认的monospace
    通过这样子的方式实现英文数字加载JetbrainMono 中文加载苹方简体
@@ -19,7 +20,9 @@
 body {
     font-family: 'JetBrainsMono', 'PingFangSC', monospace;
 }
+
 /* 将 JetBrain Mono 应用到 <code> 和 <pre> 标签 */
-code, pre {
+code,
+pre {
     font-family: 'JetBrain Mono', monospace;
 }

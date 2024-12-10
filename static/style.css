@@ -1,39 +1,121 @@
-body {
-  /* set body font color */
-  color: #DBDCE2 !important;
-  /* set body background color */
-  background-color: #1A1C1F;
+/* golbal variable define */
+:root {
+    --text-primary-color: #DBDCE2;
+    --text-secondary-color: #9CA3AF;
+    --navbar-background: rgba(28, 30, 34, 0.95);
+    --accent-color: #3b82f6;
+    --card-background: rgba(28, 30, 34, 0.7);
 }
 
-/* 确保 navbar 和 footer 使用自定义背景色和字体颜色 */
+body {
+    /* set body font color */
+    color: var(--text-primary-color) !important;
+    /* set body background color */
+    background-color: #1A1C1F;
+}
+
+/* customize navbar part */
 .navbar-custom {
-  /* the background color for test */
-  /* background-color: #312b2b; */
-  height: 6vh;
+    height: 6vh;
+    background-color: var(--navbar-background);
+    /* frosted glass effect + Brower compatible */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    /* shaow effect */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    /* bottom half-transparent white border */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    /* trasnition animation */
+    transition: color 0.3s ease;
 }
 
 /* 导航栏字体颜色 */
 .navbar-custom .navbar-nav .nav-link {
-  color: #DBDCE2;
+    color: var(--text-primary-color);
+    /* padding: 0.5rem 1rem; */
+    position: relative;
+    transition: color 0.3s ease;
 }
+
+/* navbar animation setting */
+.navbar-custom .navbar-nav .nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 50%;
+    background-color: var(--accent-color);
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+.navbar-custom .navbar-nav .nav-link:hover::after {
+    width: 100%;
+}
+
+/* let text have color animation */
+.navbar-custom .navbar-nav .nav-link:hover {
+    color: var(--accent-color);
+}
+
 /* main-contnet hight */
 .main-content {
-  height: 88vh;
+    height: 88vh;
 }
 
-/* define the footer with the same  */
 .footer-custom {
-  /* the background color for test */
-  /* background-color: #2f3c50; */
-  height: 6vh;
+    /* 基础设置 */
+    height: 6vh;
+    background-color: #1E2124;
+    color: var(--text-primary-color);
+
+    /* 添加微妙的渐变背景 */
+    background-image: linear-gradient(to bottom, #1E2124, #1A1C1F);
+
+    /* 添加顶部边框，增加层次感 */
+    border-top: 1px solid rgba(219, 220, 226, 0.1);
+
+    /* 确保内容垂直居中 */
+    display: flex;
+    align-items: center;
+
+    /* 添加阴影效果，增加深度感 */
+    box-shadow: 0 -1px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* define article page search box */
-#searchBox {
-  transition: width 0.3s ease;
-  width: 20vw; /* 初始宽度 */
+/* Responsive design */
+@media (max-width: 768px) {
+    .navbar-custom {
+        height: auto;
+        padding: 0.5rem 0;
+    }
+
+    .main-content {
+        height: auto;
+        min-height: 88vh;
+    }
+
+    .card {
+        margin-bottom: 1.5rem;
+    }
 }
 
-#searchBox.expanded {
-  width: 60vw; /* 扩展后的宽度 */
+/* Animations */
+.content-wrapper {
+    animation: fadeIn 0.3s ease-out;
+    will-change: opacity, transform;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+        /* 减小移动距离 */
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }

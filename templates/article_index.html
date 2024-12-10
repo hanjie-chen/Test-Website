@@ -1,59 +1,55 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plain Aritcles</title>
-    <!-- 网站图标 -->
-    <link rel="icon" href="/static/icon/favicon_point.ico" type="image/x-icon">
+{% extends "base.html" %}
 
+{% block title %}
+<title>Plain Aritcles</title>
+{% endblock%}
 
-    <!-- Bootstrap 5 CSS -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap5/css/bootstrap.min.css') }}">
-    <!-- use the pointed font -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='font/font.css') }}">
-    <!-- pointed body color -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}">
-   
-</head>
-<body>
-  <main class="d-flex flex-column min-vh-100">
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-sm navbar-custom fixed-top">
-      <div class="container">
-          <div class="d-flex align-items-center">
-              <!-- Home链接 -->
-              <a href="{{ url_for('index')}}" class="text-decoration-none">
-                  Home
-              </a>
-            
-              <!-- 分隔符 -->
-              <span class="mx-3">|</span>
-      
-              <!-- Article部分 -->
-              <div class="d-flex align-items-center">
-                    <img alt="文章" 
-                        class="rounded me-2" 
-                        style="width:1.5vw; height: auto;" 
-                        src="{{ url_for('static', filename='svg/book-open.svg') }}" >
+<!-- Navbar -->
+{% block navbar%}
+<nav class="navbar navbar-expand-sm navbar-custom fixed-top">
+    <div class="container">
+        <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+                <!-- Article部分 -->
+                <a href="#" class="nav-link d-flex align-items-center">
+                    <img alt="文章" class="rounded me-1" style="width:1.5vw; height: auto;"
+                        src="{{ url_for('static', filename='svg/book-open.svg') }}">
                     <span>Article</span>
-              </div>
-          </div>
-      
-            <div class="collapse navbar-collapse" id="mynavbar">
-                <ul class="navbar-nav ms-auto">
-                    <!-- 文章页面就可以包含分类和标签了 不用另外起一个页面 -->
-                    <li class="nav-item">
-                        <input id="searchBox" type="text" class="form-control" placeholder="type / to search" aria-label="Search" />
-                    </li>
-                </ul>
-            </div>
-      </div>
-    </nav>
-    
-    <!-- Main Content -->
-    <div class="main-content container-fluid flex-grow-1 d-flex align-items-center justify-content-center">
-        <div class="content-wrapper">
+                </a>
+            </li>
+        </ul>
+
+        <div class="collapse navbar-collapse" id="mynavbar">
+            <ul class="navbar-nav ms-auto">
+                <!-- Home链接 -->
+                <li class="nav-item">
+                    <a href="{{ url_for('index')}}" class="nav-link">
+                        Home
+                    </a>
+                </li>
+
+                <!-- 分隔符 -->
+                <li class="nav-item">
+                    <span class="nav-link">|</span>
+                </li>
+
+                <!-- About Me链接 -->
+                <li class="nav-item">
+                    <a href="{{ url_for('about_me')}}" class="nav-link">
+                        About Me
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+{% endblock %}
+
+<!-- Main Content -->
+{% block main_content%}
+<div class="main-content container flex-grow-1 d-flex align-items-center justify-content-center">
+    <div class="content-wrapper">
+        <div class="container">
             <div class="content">
                 <h5 class="mb-3">文章列表</h5>
                 <div class="row">
@@ -73,7 +69,8 @@
                                 <div class="mt-auto">
                                     <p class="card-text">
                                         <small class="text-muted">
-                                            作者: {{ article.author }} | 发布日期: {{ article.rollout_date }} | category:
+                                            作者: {{ article.author }} | 发布日期: {{ article.rollout_date }} |
+                                            category:
                                             {{ article.category }}
                                         </small>
                                     </p>
@@ -87,20 +84,7 @@
                 </div>
             </div>
         </div>
+
     </div>
-
-    <!-- Footer -->
-    <footer class="footer-custom py-3 ">
-      <div class="container text-center">
-        <span>&copy; 2024 for Plain Personal Website</span>
-      </div>
-    </footer>
-        
-  </main>
-  <!-- Bootstrap 5 JS Bundle with Popper -->
-  <script src="{{ url_for('static', filename='bootstrap5/js/bootstrap.bundle.min.js') }}"></script>
-  <!-- 引入自定义的搜索框 JS -->
-  <script src="{{ url_for('static', filename='search.js') }}"></script>
-</body>
-</html>
-
+</div>
+{% endblock %}
