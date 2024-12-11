@@ -1,0 +1,23 @@
+.article-content {
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+    line-height: 1.6;
+}
+
+.article-content img {
+    max-width: 100%;
+    height: auto;
+}
+
+.article-content pre {
+    padding: 15px;
+    border-radius: 4px;
+    overflow-x: auto;
+}
+
+.article-content code {
+    font-family: 'JetBrainsMono', monospace;
+    padding: 2px 4px;
+    border-radius: 3px;
+}

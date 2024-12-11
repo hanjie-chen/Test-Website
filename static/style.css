@@ -16,7 +16,7 @@ body {
 
 /* customize navbar part */
 .navbar-custom {
-    height: 6vh;
+    height: 56px;
     background-color: var(--navbar-background);
     /* frosted glass effect + Brower compatible */
     backdrop-filter: blur(10px);
@@ -61,12 +61,15 @@ body {
 
 /* main-contnet hight */
 .main-content {
-    height: 88vh;
+    padding: 64px 0 2rem 0;
+    /* 添加适当的内边距 */
+    flex: 1 0 auto;
+    /* 让内容区域自动占据剩余空间 */
 }
 
 .footer-custom {
     /* 基础设置 */
-    height: 6vh;
+    /* height: 6vh; */
     background-color: #1E2124;
     color: var(--text-primary-color);
 

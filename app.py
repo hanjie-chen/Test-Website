@@ -63,18 +63,19 @@ def view_article(article_id):
     # 转换category中的/为-以匹配文件系统路径
     category_path = article.category.replace(os.sep, '-')
     
-    # 构建相对于/rendered_articles的路径
-    html_filename = f"{article_id}.html"
-    html_path = f"{category_path}{os.sep}{html_filename}"
+    # 真正的 html_path
+    html_path = f"{Rendered_Articles}{os.sep}{category_path}{os.sep}{article_id}.html"
     
-    # 检查文件是否存在
-    if not os.path.exists(os.path.join(app.config['RENDERED_ARTICLES_FOLDER'], category_path, html_filename)):
+    try:
+        with open(html_path, 'r', encoding='utf-8') as f:
+            article_content = f.read()
+    except FileNotFoundError:
         abort(404)
     
     # 返回模板，使用相对路径
     return render_template('article_details.html', 
                          article=article,
-                         article_content_path = url_for(Rendered_Articles, filename=html_path)
+                         article_content=article_content
                          )
 
 

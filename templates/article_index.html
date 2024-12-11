@@ -10,11 +10,8 @@
     <div class="container">
         <ul class="navbar-nav me-auto">
             <li class="nav-item">
-                <!-- Article部分 -->
-                <a href="#" class="nav-link d-flex align-items-center">
-                    <img alt="文章" class="rounded me-1" style="width:1.5vw; height: auto;"
-                        src="{{ url_for('static', filename='svg/book-open.svg') }}">
-                    <span>Article</span>
+                <a href="{{ url_for('article_index')}}" class="nav-link">
+                    📚 Articles
                 </a>
             </li>
         </ul>

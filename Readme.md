@@ -5,15 +5,6 @@ This is the Frontend website of my personal website. Lask time I try to develop 
 Now I trying to develop the backend part of my website, I'd to choose the SQLite as my database to store my articles.
 
 
-
-# About the website icon design
-
-[Yesicon - 精选全球高品质、开源、免费的矢量图标库](https://yesicon.app/?lang=zh-hans)
-
-use that website to get icon
-
-
-
 # LLM Prompt
 
 ## Backend
