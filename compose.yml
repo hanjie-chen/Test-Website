@@ -8,8 +8,7 @@ services:
       - "5000:5000"
     volumes:
       - .:/app
-      # mount the test data
-      - /home/Plain/Personal_Project/articles-data-test:/app/articles-data-test
     environment:
-      - ARTICLES_DIRECTORY=/app/articles-data-test
+      - ARTICLES_DIRECTORY=/articles-data
       - FLASK_APP=app.py
+      - LOG_DIR=/var/log/personal-website
