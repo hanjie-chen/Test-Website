@@ -22,8 +22,10 @@ importlib-metadata==8.5.0
     #   markdown
 itsdangerous==2.2.0
     # via flask
-jinja2==3.1.4
-    # via flask
+jinja2==3.1.5
+    # via
+    #   -r requirements.in
+    #   flask
 markdown==3.7
     # via -r requirements.in
 markupsafe==2.1.5
