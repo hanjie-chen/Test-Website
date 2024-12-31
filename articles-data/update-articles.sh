@@ -1,16 +1,27 @@
-#!/bin/bash
+#!/bin/sh
 
-LOG_FILE="${LOG_DIR}/git-pull.log"
+GIT_LOG="/var/log/personal-website/articles-sync.log"  # 更新名称
+REPO_BRANCH="${REPO_BRANCH:-main}"
 
-# 记录时间
-echo "=== Git pull started at $(date) ===" >> $LOG_FILE
+log_message() {
+    echo "[$(date '+%Y-%m-%d %H:%M:%S')] [SYNC] $1" >> "$GIT_LOG"
+}
+
+log_message "Starting articles synchronization"
 
 # 切换到仓库目录
-cd /articles-data
+cd /articles-data || {
+    log_message "Failed to change directory to /articles-data"
+    exit 1
+}
 
 # 执行 git pull
-/usr/bin/git pull origin main >> $LOG_FILE 2>&1
+if /usr/bin/git pull origin "$REPO_BRANCH" >> "$GIT_LOG 2>&1"; then
+    log_message "Git pull successful"
+else
+    log_message "Git pull failed"
+    exit 1
+fi
 
-# 记录完成状态
-echo "=== Git pull completed at $(date) ===" >> $LOG_FILE
-echo "----------------------------------------" >> $LOG_FILE
+log_message "Articles synchronization completed"
+echo "----------------------------------------" >> "$GIT_LOG"

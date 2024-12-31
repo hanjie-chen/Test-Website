@@ -1,5 +1,5 @@
 {
-    "name": "Flask-Container",
+    "name": "web-dev",
     // 使用 Docker Compose 进行配置
     "dockerComposeFile": "../compose.yml",
     "service": "web",

@@ -1,14 +1,27 @@
 services:
-  web:
+  web-app:
     build:
-      context: .
+      context: ./web-app
       dockerfile: Dockerfile
-    image: my-website
     ports:
       - "5000:5000"
     volumes:
-      - .:/app
+      - ./web-app:/app
+      - articles_data:/articles-data:ro
     environment:
       - ARTICLES_DIRECTORY=/articles-data
       - FLASK_APP=app.py
       - LOG_DIR=/var/log/personal-website
+
+  articles-data:
+    build:
+      context: ./articles-data
+      dockerfile: Dockerfile
+    volumes:
+      - articles_data:/articles-data:rw
+    environment:
+      - GITHUB_REPO=https://github.com/hanjie-chen/PersonalArticles.git
+      - REPO_BRANCH=main
+
+volumes:
+  articles_data:
