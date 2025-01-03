@@ -6,12 +6,15 @@ services:
     ports:
       - "5000:5000"
     volumes:
-      - ./web-app:/app
       - articles_data:/articles-data:ro
     environment:
       - ARTICLES_DIRECTORY=/articles-data
       - FLASK_APP=app.py
-      - LOG_DIR=/var/log/personal-website
+    develop:
+      watch:
+        - path: ./web-app
+          target: /app
+          action: sync+restart
 
   articles-data:
     build:
@@ -22,6 +25,11 @@ services:
     environment:
       - GITHUB_REPO=https://github.com/hanjie-chen/PersonalArticles.git
       - REPO_BRANCH=main
+      - LOG_DIR=/var/log/personal-website
+    develop:
+      watch:
+        - path: ./articles-data
+          action: restart
 
 volumes:
   articles_data:

@@ -10,48 +10,22 @@ from markdown_render_scripts import render_markdown_to_html
 
 # future considered: use pathlib.Path instead of os.path
 
+def divided_files_and_folder(path):
+    """
+    return the files and folders in a directory
+    """
+    all_items = os.listdir(path)
+    # ginore the folder named "__foldername__"
+    files_and_folders = [item for item in all_items if not (item.startswith('__') and item.endswith('__'))]
+    files = [file for file in files_and_folders if os.path.isfile(os.path.join(path, file))]
+    folders = [folder for folder in files_and_folders if os.path.isdir(os.path.join(path, folder))]
+    return files, folders
+
 def get_dst_path(current_dir: str, root_dir: str):
     """ get the path of rendered file  """
     relative_path = os.path.relpath(current_dir, root_dir)
     destination_path = os.path.join(Rendered_Articles, relative_path.replace(os.sep, '-'))
     return destination_path
-
-def import_articles(root_dir: str, db: SQLAlchemy):
-    """scan articles directory and copy images file"""
-
-    def _recursive_scan(current_dir: str):
-        # if images folder exists which means it reach articles md file
-        if 'images' in os.listdir(current_dir):
-            # get destination path
-            destination_path = get_dst_path(current_dir, root_dir)
-
-            #  if destination path exist, delete it
-            if os.path.exists(destination_path):
-                shutil.rmtree(destination_path)
-            
-            # create destination folder
-            os.makedirs(destination_path)
-
-            # copy images from source to destination
-            source_images_path = os.path.join(current_dir, 'images')
-            destiantion_images_path = os.path.join(destination_path, 'images')
-            shutil.copytree(source_images_path, destiantion_images_path)
-            print(f"copy images from {source_images_path} to {destiantion_images_path} successed")
-
-            # if exist then its articles folder | deal with all md file
-            for file in os.listdir(current_dir):
-                if file.endswith('.md'):
-                    process_article(file, current_dir, root_dir, db)
-        else:
-            # if not exist go deeper dir
-            for sub_dir in os.listdir(current_dir):
-                sub_dir_path = os.path.join(current_dir, sub_dir)
-                if os.path.isdir(sub_dir_path):
-                    _recursive_scan(sub_dir_path)
-
-    _recursive_scan(root_dir)
-    db.session.commit()
-    print("All articles have been imported.")
 
 def process_article(md_filename: str, current_dir: str, root_dir: str, db: SQLAlchemy):
     """deal with single .md file"""
@@ -134,3 +108,50 @@ def process_article(md_filename: str, current_dir: str, root_dir: str, db: SQLAl
 
     html_filename = article_metadata.id
     render_markdown_to_html(body_part, html_filename, output_path)
+
+def import_articles(root_dir: str, db: SQLAlchemy):
+    """scan articles directory and copy images file"""
+
+    def _recursive_scan(current_dir: str):
+
+        # get files and folders in current dir
+        files, folders = divided_files_and_folder(current_dir)
+
+         # if images/assets folder exists which means it reach articles md file
+        if 'images' in folders:
+            exist_folder = 'images'
+        elif 'assets' in folders:
+            exist_folder = 'assets'
+        else:
+            exist_folder = None
+
+        if exist_folder:
+            # get destination path
+            destination_path = get_dst_path(current_dir, root_dir)
+
+            #  if destination path exist, delete it
+            if os.path.exists(destination_path):
+                shutil.rmtree(destination_path)
+            
+            # create destination folder
+            os.makedirs(destination_path)
+
+            # copy images from source to destination
+            source_images_path = os.path.join(current_dir, exist_folder)
+            destiantion_images_path = os.path.join(destination_path, exist_folder)
+            shutil.copytree(source_images_path, destiantion_images_path)
+            print(f"copy images from {source_images_path} to {destiantion_images_path} successed")
+
+            # if exist then its articles folder | deal with all md file
+            for file in files:
+                if file.endswith('.md'):
+                    process_article(file, current_dir, root_dir, db)
+        else:
+            # if not exist go deeper dir
+            for folder in folders:
+                sub_dir_path = os.path.join(current_dir, folder)
+                _recursive_scan(sub_dir_path)
+
+    _recursive_scan(root_dir)
+    db.session.commit()
+    print("All articles have been imported.")

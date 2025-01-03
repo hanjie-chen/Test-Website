@@ -1,12 +1,6 @@
 __pycache__
 instance
 rendered_articles
-.git/
-.gitignore
-.db
 
 # docker realted file
-compose.yml
-.dockerignore
-.devcontainer
 Dockerfile
