@@ -10,7 +10,8 @@ COPY requirements.txt .
 # 安装依赖
 RUN pip install -r requirements.txt
 
-COPY . .
+# product env used, now use volume mount, which define in the compose.yml
+# COPY . .
 
 # 暴露端口（Flask默认使用5000端口）
 EXPOSE 5000

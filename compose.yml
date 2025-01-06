@@ -7,6 +7,8 @@ services:
       - "5000:5000"
     volumes:
       - articles_data:/articles-data:ro
+      # bind mount used to develop env, need to delete when product env
+      - ./web-app:/app
     environment:
       - ARTICLES_DIRECTORY=/articles-data
       - FLASK_APP=app.py
