@@ -1,5 +1,6 @@
 services:
   web-app:
+    container_name: web-app
     build:
       context: ./web-app
       dockerfile: Dockerfile
@@ -15,12 +16,12 @@ services:
     develop:
       watch:
         - path: ./web-app
-          target: /app
-          action: sync+restart
+          action: restart
 
-  articles-data:
+  articles-sync:
+    container_name: articles-sync
     build:
-      context: ./articles-data
+      context: ./articles-sync
       dockerfile: Dockerfile
     volumes:
       - articles_data:/articles-data:rw
@@ -30,7 +31,7 @@ services:
       - LOG_DIR=/var/log/personal-website
     develop:
       watch:
-        - path: ./articles-data
+        - path: ./articles-sync
           action: restart
 
 volumes:

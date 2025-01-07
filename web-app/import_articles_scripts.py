@@ -9,13 +9,17 @@ from models import Article_Meta_Data
 from markdown_render_scripts import render_markdown_to_html
 
 # future considered: use pathlib.Path instead of os.path
+# consider use python logging package to instead of print information
 
-def divided_files_and_folder(path):
+# regular expression pre-compile
+brief_intro_pattern = re.compile(r'```.*?BriefIntroduction:\s*(.*?)```', re.DOTALL)
+
+def divide_files_and_folders(path: str):
     """
     return the files and folders in a directory
     """
     all_items = os.listdir(path)
-    # ginore the folder named "__foldername__"
+    # ignore the folder named "__<foldername>__"
     files_and_folders = [item for item in all_items if not (item.startswith('__') and item.endswith('__'))]
     files = [file for file in files_and_folders if os.path.isfile(os.path.join(path, file))]
     folders = [folder for folder in files_and_folders if os.path.isdir(os.path.join(path, folder))]
@@ -27,6 +31,52 @@ def get_dst_path(current_dir: str, root_dir: str):
     destination_path = os.path.join(Rendered_Articles, relative_path.replace(os.sep, '-'))
     return destination_path
 
+def validate_and_extract(md_path: str):
+    """
+    validate a md file whether read to lanch on the webiste
+    extract ymal-metadata, brief introduction, content_part which need to render
+    if validate pass, return brief_intro_text, metadata, content_part
+    if validate failed, return False
+    """
+
+    try:
+        with open(md_path, 'r', encoding='utf-8') as f:
+            single_article = f.read()
+    except Exception as e:
+        print(f"Error reading file {md_path}: {e}. Skipped.")
+        return False
+    
+    # single article = metadata part + content part
+    # only divide once, which means when it met first <!-- split -->, it will divide and stop
+    divided_article = single_article.split('<!-- split -->', 1)
+    if len(divided_article) != 2:
+        print(f"file: {md_path} lacks <!-- split -->, not ready to be published, skipped")
+        return False
+    
+    metadata_part = divided_article[0]
+    content_part = divided_article[1]
+
+    # extra real metadata and brief introduction
+    post = frontmatter.loads(metadata_part)
+    real_metadata = post.metadata
+    brief_intro = post.content
+
+    # extra brief introduction
+    brief_intro_match = brief_intro_pattern.search(brief_intro)
+    if not brief_intro_match:
+        print(f"file {md_path} lack brief introduciton, not ready to published, skipped")
+        return False
+    brief_intro_text = brief_intro_match.group(1).strip()
+
+    # validate metadata field, empty not allowed
+    required_fields = ["Title", "Author", "Instructor", "CoverImage", "RolloutDate"]
+    for field in required_fields:
+        if not real_metadata.get(field):
+            print(f"file {md_path} metadata {field} is empty, not ready to published, skipped")
+            return False
+    
+    return brief_intro_text, real_metadata, content_part
+
 def process_article(md_filename: str, current_dir: str, root_dir: str, db: SQLAlchemy):
     """deal with single .md file"""
 
@@ -34,34 +84,12 @@ def process_article(md_filename: str, current_dir: str, root_dir: str, db: SQLAl
     output_path = get_dst_path(current_dir, root_dir)
 
     md_path = os.path.join(current_dir, md_filename)
-    with open(md_path, 'r', encoding='utf-8') as f:
-        article = f.read()
     
-    # article = metadata + body
-    # the article without <!-- split --> means not ready to published
-    # only split once, which means when it met first <!-- split -->, it split and then stop
-    split = article.split('<!-- split -->', 1)
-    if len(split) != 2:
-        print(f"file: {md_path} lack <!-- split -->, not ready to be published, jumped")
+    result = validate_and_extract(md_path)
+    if not result:
         return
-    
-    metadata_part = split[0]
-    # use body part to generate the html file
-    body_part = split[1]
-
-    # extra metadate
-    post = frontmatter.loads(metadata_part)
-    metadata = post.metadata
-    left_content = post.content
-
-    # extra brief introduction
-    brief_intro_pattern = re.compile(r'```.*?BriefIntroduction:\s*(.*?)```', re.DOTALL)
-    brief_intro_match = brief_intro_pattern.search(left_content)
-    if brief_intro_match:
-        brief_intro_text = brief_intro_match.group(1).strip()
-    else:
-        brief_intro_text = ''
-        print(f"brief-introduction parse failed file {md_path} ")
+    brief_intro_text, metadata, content_part = result
+    print(f"file {md_path} pass validate, ready to launch")
 
     # extra file last modified time
     # only consider modified_time to auto generate, beucase the create time will be chagned if file moved between different OS
@@ -73,15 +101,15 @@ def process_article(md_filename: str, current_dir: str, root_dir: str, db: SQLAl
     article_category = os.path.split(rel_path)[0]
 
     # generate true cover_image_url
-    raw_image_path = metadata.get('CoverImage', 'unknown')
-    cover_image_path = os.path.join(output_path, raw_image_path[2:])
+    raw_image_path = metadata.get('CoverImage')
+    cover_image_path = os.path.join(output_path, raw_image_path.lstrip("./"))
 
     # create database models instance
     article_metadata = Article_Meta_Data(
-        title=metadata.get('Title', 'Untitled'),
-        author=metadata.get('Author', 'Plain'),
+        title=metadata.get('Title'),
+        author=metadata.get('Author'),
         instructor=metadata.get('Instructor'),
-        rollout_date=metadata.get('RolloutDate', date.today()),
+        rollout_date=metadata.get('RolloutDate'),
         cover_image_url=cover_image_path,
         category=article_category,
         ultimate_modified_date=file_last_modified_time,
@@ -107,7 +135,7 @@ def process_article(md_filename: str, current_dir: str, root_dir: str, db: SQLAl
     print(f'Article {article_metadata.category}/{article_metadata.title} added')
 
     html_filename = article_metadata.id
-    render_markdown_to_html(body_part, html_filename, output_path)
+    render_markdown_to_html(content_part, html_filename, output_path)
 
 def import_articles(root_dir: str, db: SQLAlchemy):
     """scan articles directory and copy images file"""
@@ -115,7 +143,7 @@ def import_articles(root_dir: str, db: SQLAlchemy):
     def _recursive_scan(current_dir: str):
 
         # get files and folders in current dir
-        files, folders = divided_files_and_folder(current_dir)
+        files, folders = divide_files_and_folders(current_dir)
 
          # if images/assets folder exists which means it reach articles md file
         if 'images' in folders:
@@ -131,16 +159,19 @@ def import_articles(root_dir: str, db: SQLAlchemy):
 
             #  if destination path exist, delete it
             if os.path.exists(destination_path):
-                shutil.rmtree(destination_path)
+                if destination_path.is_dir():
+                    shutil.rmtree(destination_path)
+                else:
+                    os.remove(destination_path)
             
             # create destination folder
             os.makedirs(destination_path)
 
             # copy images from source to destination
             source_images_path = os.path.join(current_dir, exist_folder)
-            destiantion_images_path = os.path.join(destination_path, exist_folder)
-            shutil.copytree(source_images_path, destiantion_images_path)
-            print(f"copy images from {source_images_path} to {destiantion_images_path} successed")
+            destination_images_path = os.path.join(destination_path, exist_folder)
+            shutil.copytree(source_images_path, destination_images_path)
+            print(f"copy images from {source_images_path} to {destination_images_path} successfully")
 
             # if exist then its articles folder | deal with all md file
             for file in files:
