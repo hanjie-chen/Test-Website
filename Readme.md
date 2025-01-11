@@ -4,6 +4,9 @@ This is the Frontend website of my personal website. Lask time I try to develop 
 
 Now I trying to develop the backend part of my website, I'd to choose the SQLite as my database to store my articles.
 
+# future consider
+
+[waf](https://github.com/chaitin/SafeLine)
 
 # LLM Prompt
 

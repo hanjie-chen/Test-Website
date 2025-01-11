@@ -69,7 +69,8 @@ def validate_and_extract(md_path: str):
     brief_intro_text = brief_intro_match.group(1).strip()
 
     # validate metadata field, empty not allowed
-    required_fields = ["Title", "Author", "Instructor", "CoverImage", "RolloutDate"]
+    # Instructor can be empty
+    required_fields = ["Title", "Author", "CoverImage", "RolloutDate"]
     for field in required_fields:
         if not real_metadata.get(field):
             print(f"file {md_path} metadata {field} is empty, not ready to published, skipped")
@@ -105,10 +106,11 @@ def process_article(md_filename: str, current_dir: str, root_dir: str, db: SQLAl
     cover_image_path = os.path.join(output_path, raw_image_path.lstrip("./"))
 
     # create database models instance
+    # if Instructor is empty, default set to nobody
     article_metadata = Article_Meta_Data(
         title=metadata.get('Title'),
         author=metadata.get('Author'),
-        instructor=metadata.get('Instructor'),
+        instructor=metadata.get('Instructor', 'nobody'),
         rollout_date=metadata.get('RolloutDate'),
         cover_image_url=cover_image_path,
         category=article_category,
@@ -138,9 +140,16 @@ def process_article(md_filename: str, current_dir: str, root_dir: str, db: SQLAl
     render_markdown_to_html(content_part, html_filename, output_path)
 
 def import_articles(root_dir: str, db: SQLAlchemy):
-    """scan articles directory and copy images file"""
+    """
+    scan articles directory and copy images file
+    and rendered md file to html file
+    """
 
     def _recursive_scan(current_dir: str):
+        """
+        recursive articles data directory
+        copy the images/assets folder and rendered md file to html
+        """
 
         # get files and folders in current dir
         files, folders = divide_files_and_folders(current_dir)
@@ -156,13 +165,6 @@ def import_articles(root_dir: str, db: SQLAlchemy):
         if exist_folder:
             # get destination path
             destination_path = get_dst_path(current_dir, root_dir)
-
-            #  if destination path exist, delete it
-            if os.path.exists(destination_path):
-                if destination_path.is_dir():
-                    shutil.rmtree(destination_path)
-                else:
-                    os.remove(destination_path)
             
             # create destination folder
             os.makedirs(destination_path)
@@ -183,6 +185,13 @@ def import_articles(root_dir: str, db: SQLAlchemy):
                 sub_dir_path = os.path.join(current_dir, folder)
                 _recursive_scan(sub_dir_path)
 
+    # if rednered-articles folder/file exists before, delete it
+    if os.path.exists(Rendered_Articles):
+        if os.path.isdir(Rendered_Articles):
+            shutil.rmtree(Rendered_Articles)
+        else:
+            os.remove(Rendered_Articles)
+    # recursive articles directory and rendered it
     _recursive_scan(root_dir)
     db.session.commit()
     print("All articles have been imported.")
