@@ -15,9 +15,9 @@ app.config['RENDERED_ARTICLES_FOLDER'] = os.path.join(app.root_path, Rendered_Ar
 # add to test
 
 
-# 注册rendered_articles为静态文件夹
-app.add_url_rule('/rendered_articles/<path:filename>',
-                 endpoint='rendered_articles',
+# 注册rendered-articles为静态文件夹
+app.add_url_rule('/rendered-articles/<path:filename>',
+                 endpoint='rendered-articles',
                  view_func=lambda filename: send_from_directory(app.config['RENDERED_ARTICLES_FOLDER'], filename))
 
 # 初始化应用

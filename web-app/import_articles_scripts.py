@@ -19,8 +19,11 @@ def divide_files_and_folders(path: str):
     return the files and folders in a directory
     """
     all_items = os.listdir(path)
-    # ignore the folder named "__<foldername>__"
-    files_and_folders = [item for item in all_items if not (item.startswith('__') and item.endswith('__'))]
+    # ignore the folder named "__<foldername>__" and ".<foldername>"
+    files_and_folders = [item for item in all_items if not (
+        (item.startswith('__') and item.endswith('__')) or 
+        item.startswith('.')
+                        )]
     files = [file for file in files_and_folders if os.path.isfile(os.path.join(path, file))]
     folders = [folder for folder in files_and_folders if os.path.isdir(os.path.join(path, folder))]
     return files, folders

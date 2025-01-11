@@ -52,7 +52,7 @@ Plain@Linux-VM:~/Personal_Project/test-website$ tree -L 2
     ├── instance
     ├── markdown_render_scripts.py
     ├── models.py
-    ├── rendered_articles
+    ├── rendered-articles
     ├── requirements.in
     ├── requirements.txt
     ├── static
