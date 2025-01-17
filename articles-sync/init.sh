@@ -31,9 +31,11 @@ else
     /usr/local/bin/update-articles.sh
 fi
 
-# 设置定时任务
-echo "0 16 * * * /usr/local/bin/update-articles.sh >> $GIT_LOG 2>&1" >> /etc/crontabs/root
-echo "0 2 * * * /usr/sbin/logrotate /etc/logrotate.d/personal-website" >> /etc/crontabs/root
+# use > and here document, make sure the crontab file is overwritten
+cat << EOF > /etc/crontabs/root
+0 16 * * * /bin/sh -c "/usr/local/bin/update-articles.sh >> /var/log/personal-website/articles-sync.log 2>&1"
+0 2 * * * /bin/sh -c "/usr/sbin/logrotate /etc/logrotate.d/personal-website"
+EOF
 
 # 启动 crond 在后台
 crond -b -L "$CROND_LOG" -l 6

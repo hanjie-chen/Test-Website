@@ -13,10 +13,6 @@ services:
     environment:
       - ARTICLES_DIRECTORY=/articles-data
       - FLASK_APP=app.py
-    develop:
-      watch:
-        - path: ./web-app
-          action: restart
 
   articles-sync:
     container_name: articles-sync
@@ -25,6 +21,8 @@ services:
       dockerfile: Dockerfile
     volumes:
       - articles_data:/articles-data:rw
+      # bind mount conainer logs folder, used to devlop env
+      - ./articles-sync/logs:/var/log/personal-website
     environment:
       - GITHUB_REPO=https://github.com/hanjie-chen/PersonalArticles.git
       - REPO_BRANCH=main
@@ -32,7 +30,9 @@ services:
     develop:
       watch:
         - path: ./articles-sync
-          action: restart
+          ignore:
+            - logs/**
+          action: rebuild
 
 volumes:
   articles_data:

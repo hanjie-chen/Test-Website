@@ -1,4 +1,6 @@
 /* 2个URL让浏览器选择最适合自己的格式 */
+/* furture consider: 考虑字体子集化 让浏览器自动分析网页内容 并下载所需的字体子集文件 以提高性能*/
+
 /* 英文 */
 @font-face {
     font-family: 'JetBrainsMono';
@@ -10,8 +12,7 @@
 /* 中文 */
 @font-face {
     font-family: 'PingFangSC';
-    src: url('./PingFangSC/PingFangSCRegular.woff2') format('woff2'),
-        url('./PingFangSC/PingFangSCRegular.ttf') format('truetype');
+    src: url('./PingFangSC/PingFang-SC-Regular.ttf') format('truetype');
 }
 
 /* 优先加载JetrainsMono字体 如果字符不能使用其加载 那么使用苹方简体加载 如果还是不行加载系统默认的monospace

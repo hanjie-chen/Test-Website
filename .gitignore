@@ -9,3 +9,6 @@ instance/
 
 # igonre the docker bind mount folder
 articles-data-test/
+
+# igonre the logs which host on the 
+logs/
