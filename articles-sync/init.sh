@@ -33,9 +33,12 @@ fi
 
 # use > and here document, make sure the crontab file is overwritten
 cat << EOF > /etc/crontabs/root
-0 16 * * * /bin/sh -c "/usr/local/bin/update-articles.sh >> /var/log/personal-website/articles-sync.log 2>&1"
-0 2 * * * /bin/sh -c "/usr/sbin/logrotate /etc/logrotate.d/personal-website"
+0 16 * * * /usr/local/bin/update-articles.sh >> /var/log/personal-website/articles-sync.log 2>&1
+0 2 * * * /usr/sbin/logrotate /etc/logrotate.d/personal-website
 EOF
+
+# 设置 umask
+umask 022
 
 # 启动 crond 在后台
 crond -b -L "$CROND_LOG" -l 6

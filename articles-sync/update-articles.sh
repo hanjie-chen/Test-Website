@@ -16,7 +16,7 @@ cd /articles-data || {
 }
 
 # 执行 git pull
-if /usr/bin/git pull origin "$REPO_BRANCH" >> "$GIT_LOG 2>&1"; then
+if /usr/bin/git pull origin "$REPO_BRANCH" >> "$GIT_LOG" 2>&1; then
     log_message "Git pull successful"
 else
     log_message "Git pull failed"
