@@ -1,17 +1,16 @@
 import markdown
-from markdown.extensions import fenced_code
-from markdown.extensions import tables
-from markdown.extensions import toc
 import os
 
 def render_markdown_to_html(markdown_content: str, filename: str, destination_folder: str):
     """generate html file to destination folder
     
     Args:
-        markdown_content: The markdown content to convert
-        filename: The name for the output file (without extension)
+        markdown_content: The markdown string need to convert
+        filename: The name for the output html file
         destination_folder: The folder path to save the rendered HTML
     """
+    # use entry point to specified the extension I need
+    my-articles-extensions = ['fenced_code', 'footnotes', 'tables', 'md_in_html']
     # Configure markdown converter with extensions
     md = markdown.Markdown(extensions=[
         'fenced_code',

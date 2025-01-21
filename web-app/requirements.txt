@@ -32,6 +32,8 @@ markupsafe==2.1.5
     # via
     #   jinja2
     #   werkzeug
+pygments==2.19.1
+    # via -r requirements.in
 python-frontmatter==1.1.0
     # via -r requirements.in
 pyyaml==6.0.2

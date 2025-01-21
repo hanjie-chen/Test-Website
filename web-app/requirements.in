@@ -5,3 +5,4 @@ python-frontmatter
 SQLAlchemy
 # as jinja2 3.1.4 have security bug
 jinja2 == 3.1.5
+pygments
