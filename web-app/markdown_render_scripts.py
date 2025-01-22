@@ -10,13 +10,10 @@ def render_markdown_to_html(markdown_content: str, filename: str, destination_fo
         destination_folder: The folder path to save the rendered HTML
     """
     # use entry point to specified the extension I need
-    my-articles-extensions = ['fenced_code', 'footnotes', 'tables', 'md_in_html']
+    my_articles_extensions = ['fenced_code', 'footnotes', 'tables', 'md_in_html']
+
     # Configure markdown converter with extensions
-    md = markdown.Markdown(extensions=[
-        'fenced_code',
-        'tables',
-        'toc'
-    ])
+    md = markdown.Markdown(extensions=my_articles_extensions)
     
     # Convert markdown to HTML
     html_content = md.convert(markdown_content)
