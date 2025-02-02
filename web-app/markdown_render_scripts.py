@@ -10,7 +10,7 @@ def render_markdown_to_html(markdown_content: str, filename: str, destination_fo
         destination_folder: The folder path to save the rendered HTML
     """
     # use entry point to specified the extension I need
-    my_articles_extensions = ['fenced_code', 'footnotes', 'tables', 'md_in_html']
+    my_articles_extensions = ['fenced_code', 'footnotes', 'tables', 'md_in_html', 'sane_lists', 'codehilite']
 
     # Configure markdown converter with extensions
     md = markdown.Markdown(extensions=my_articles_extensions)
@@ -20,53 +20,6 @@ def render_markdown_to_html(markdown_content: str, filename: str, destination_fo
     
     # Only include necessary styles for markdown-specific elements
     html_template = f"""
-    <style>
-        /* Code blocks */
-        code {{
-            background-color: #f4f4f4;
-            padding: 2px 4px;
-            border-radius: 4px;
-        }}
-        pre {{
-            background-color: #f4f4f4;
-            padding: 15px;
-            border-radius: 8px;
-            overflow-x: auto;
-        }}
-        
-        /* Tables */
-        table {{
-            border-collapse: collapse;
-            width: 100%;
-            margin: 15px 0;
-        }}
-        th, td {{
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }}
-        th {{
-            background-color: #f4f4f4;
-        }}
-        
-        /* Images */
-        img {{
-            max-width: 100%;
-            height: auto;
-        }}
-        
-        /* Table of Contents */
-        .toc {{
-            background-color: #f8f9fa;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }}
-        .toc ul {{
-            list-style-type: none;
-            padding-left: 20px;
-        }}
-    </style>
     {html_content}
     """
     
