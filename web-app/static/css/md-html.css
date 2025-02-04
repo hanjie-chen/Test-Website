@@ -1,17 +1,48 @@
-.article-content {
-    max-width: 100%;
-    margin: 0 auto;
-    padding: 20px;
-    line-height: 1.6;
-}
-
-.article-content img {
-    max-width: 100%;
-    height: auto;
-}
-
-.article-content pre {
-    padding: 15px;
-    border-radius: 4px;
+/* 添加额外的代码块容器的样式 */
+.codehilite {
+    /* 让代码块在上下都有相同的留白，这里示例用1.6rem，你可根据需要调整 */
+    margin: 1.6rem 0;
+  
+    /* 让圆角与语法高亮背景相融合，如需阴影可加上 box-shadow */
+    border-radius: 6px;
+    /* 可选的小阴影，若需要更明显可调大数值 */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  
+    /* 若不需要在外层强行滚动，可一般设置为 auto 或 hidden */
+    overflow: hidden;
+  }
+  
+  /* 2. 具体处理内层 pre 的样式 */
+  .codehilite pre {
+    /* 去掉默认 margin，避免出现“底部空白大于顶部”等不一致情况 */
+    margin: 0;
+    /* 给内部留些 padding，保证文字不贴边；可依据个人审美微调 */
+    padding: 0.5rem;
+  
+    /* 让 pre 的圆角与外层保持一致 */
+    border-radius: inherit;
+  
+    /* 仅需要水平滚动 */
     overflow-x: auto;
-}
+    overflow-y: hidden;
+  
+  }
+
+.codehilite td.linenos {
+    /* 与主背景 #282C34 相近，但稍作区别 */
+    background-color: #21252B; 
+    color: #5C6370; /* 稍微淡一点；再深或再浅视个人口味 */
+  
+    /* 右侧加一条分割线 */
+    border-right: 1px solid #3D4043;
+  
+    /* 行号右对齐 禁止选择行号 */
+    text-align: right;
+    user-select: none;
+    vertical-align: top;
+  }
+  
+  /* 鼠标选中行号的时候无背景显示 */
+  .codehilite td.linenos::selection {
+    background: none; 
+  }

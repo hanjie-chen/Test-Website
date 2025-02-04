@@ -11,9 +11,14 @@ def render_markdown_to_html(markdown_content: str, filename: str, destination_fo
     """
     # use entry point to specified the extension I need
     my_articles_extensions = ['fenced_code', 'footnotes', 'tables', 'md_in_html', 'sane_lists', 'codehilite']
+    my_extension_configs = {
+        'codehilite':{
+            'linenums': True
+        }
+    }
 
     # Configure markdown converter with extensions
-    md = markdown.Markdown(extensions=my_articles_extensions)
+    md = markdown.Markdown(extensions=my_articles_extensions, extension_configs=my_extension_configs)
     
     # Convert markdown to HTML
     html_content = md.convert(markdown_content)
