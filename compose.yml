@@ -5,7 +5,7 @@ services:
       context: ./web-app
       dockerfile: Dockerfile
     ports:
-      - "5000:5000"
+      - "8080:5000"
     volumes:
       - articles_data:/articles-data:ro
       # bind mount used to develop env, need to delete when product env
