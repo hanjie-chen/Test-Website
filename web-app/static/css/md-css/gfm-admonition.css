@@ -1,0 +1,54 @@
+:root {
+    --ad-border: 1px solid #444;
+    
+    --note-bg: rgb(59, 46, 88);
+    --tip-bg: rgb(5, 75, 22);
+    --warning-bg: rgb(253, 207, 180);
+    --important-bg: rgb(0, 65, 115);
+    --caution-bg: rgb(99, 0, 1);
+    
+    --ad-padding: 16px 16px 0px 16px;
+    --ad-margin: 16px 0;
+    --ad-radius: 8px;
+    --ad-box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    
+    --title-font-size: 1.1em;
+    
+}
+
+/* 基础 admonition 样式 */
+.admonition {
+    border: var(--ad-border);
+    padding: var(--ad-padding);
+    margin: var(--ad-margin);
+    border-radius: var(--ad-radius);
+    box-shadow: var(--ad-box-shadow);
+}
+
+/* admonition 标题样式 */
+.admonition .admonition-title {
+    font-weight: bold;
+    margin-bottom: 8px;
+    font-size: var(--title-font-size);
+}
+
+/* 针对不同类型设置背景颜色 */
+.admonition.note {
+    background-color: var(--note-bg);
+}
+
+.admonition.tip {
+    background-color: var(--tip-bg);
+}
+
+.admonition.warning {
+    background-color: var(--warning-bg);
+}
+
+.admonition.important {
+    background-color: var(--important-bg);
+}
+
+.admonition.caution {
+    background-color: var(--caution-bg);
+}

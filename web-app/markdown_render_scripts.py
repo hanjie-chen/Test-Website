@@ -1,7 +1,6 @@
 import markdown
 import os
-# third party python markdown extensions
-from markdown_gfm_admonition import GfmAdmonitionExtension
+from custom_md_extensions.gfm_admonition_extension import Gfm_Admonition_Extension
 
 def render_markdown_to_html(markdown_content: str, filename: str, destination_folder: str):
     """generate html file to destination folder
@@ -12,7 +11,7 @@ def render_markdown_to_html(markdown_content: str, filename: str, destination_fo
         destination_folder: The folder path to save the rendered HTML
     """
     # use entry point to specified the extension I need
-    my_articles_extensions = ['fenced_code', 'footnotes', 'tables', 'md_in_html', 'sane_lists', 'codehilite', GfmAdmonitionExtension()]
+    my_articles_extensions = ['fenced_code', 'footnotes', 'tables', 'md_in_html', 'sane_lists', 'codehilite', Gfm_Admonition_Extension()]
     my_extension_configs = {
         'codehilite':{
             'linenums': True

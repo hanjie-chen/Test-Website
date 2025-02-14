@@ -1,4 +1,6 @@
-/* extra code style */
+@import url(../style.css);
+
+/* block code style */
 .codehilite {
     /* 代码块和上下文之间空出距离 左右不空 */
     margin: 1.6rem 0;
@@ -17,7 +19,7 @@
     /* 去掉默认 margin，避免出现“底部空白大于顶部”等不一致情况 */
     margin: 0;
     /* 给内部留些 padding，保证文字不贴边；可依据个人审美微调 */
-    padding: 1.2rem 0.5rem;
+    padding: 1rem 0.5rem;
   
     /* 让 pre 的圆角与外层保持一致 */
     border-radius: inherit;
@@ -25,15 +27,18 @@
     /* 仅需要水平滚动 */
     overflow-x: auto;
     overflow-y: hidden;
+
+    /* set line height */
+    line-height: 1.5;
   
   }
 
 .codehilite td.linenos {
-    /* 与主背景 #282C34 相近，但稍作区别 */
-    background-color: #21252B; 
-    color: #5C6370; /* 稍微淡一点；再深或再浅视个人口味 */
-  
-    /* 右侧加一条分割线 */
+    
+    background-color: #21252B; /* line number background color */
+    color: #5C6370; /* line number color */
+
+    /* spilt line in right */
     border-right: 1px solid #3D4043;
   
     /* 行号右对齐 禁止选择行号 */
@@ -42,7 +47,19 @@
     vertical-align: top;
   }
   
-  /* 鼠标选中行号的时候无背景显示 */
-  .codehilite td.linenos::selection {
-    background: none; 
-  }
+/* 鼠标选中行号的时候无背景显示 */
+.codehilite td.linenos::selection {
+  background: none; 
+}
+
+/* for inline code */
+p code,
+li code,
+blockquote code {
+  background-color: #343941;
+  color: var(--text-primary-color);
+  padding: 0.18rem 0.4rem 0.22rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 500;
+}
