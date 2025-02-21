@@ -60,6 +60,17 @@ blockquote code {
   color: var(--text-primary-color);
   padding: 0.18rem 0.4rem 0.22rem;
   border-radius: 6px;
-  font-size: 1rem;
+  font-size: 1em;
   font-weight: 500;
+}
+
+/* for title code */
+h1 code,
+h2 code,
+h3 code 
+{
+  background-color: #343941;
+  color: var(--text-primary-color);
+  border-radius: 6px;
+  padding: 0% 1%;
 }

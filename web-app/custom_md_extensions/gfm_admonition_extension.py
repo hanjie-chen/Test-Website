@@ -13,15 +13,6 @@ from markdown.blockprocessors import BlockProcessor
 from markdown.blockparser import BlockParser
 from xml.etree.ElementTree import Element, SubElement
 
-class Gfm_Admonition_Extension(Extension):
-    def extendMarkdown(self, md: Markdown) -> None:
-        md.registerExtension(self)
-        md.parser.blockprocessors.register(
-            Gfm_Admonition_Processor(md.parser),
-            "gfm_admonition",
-            105
-        )
-
 
 class Gfm_Admonition_Processor(BlockProcessor):
     PATTERN = re.compile(r"""
@@ -64,6 +55,17 @@ class Gfm_Admonition_Processor(BlockProcessor):
         blocks.clear()
 
         return True
-    
+
+
+class Gfm_Admonition_Extension(Extension):
+    def extendMarkdown(self, md: Markdown) -> None:
+        md.registerExtension(self)
+        md.parser.blockprocessors.register(
+            Gfm_Admonition_Processor(md.parser),
+            "gfm_admonition",
+            105
+        )
+
+
 def make_Extension(**kwargs):
     return Gfm_Admonition_Extension(**kwargs)

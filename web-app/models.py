@@ -25,7 +25,8 @@ class Article_Meta_Data(db.Model):
     # 文章指导者 存在Optional 默认nullable=True
     instructor: Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
    
-    # 文章封面链接 由于同一个path(category)共用一个images 所以可能不一定叫做cover_image
+    # 文章封面链接 真实image存储地址 由于特别设计，所以可以由category+相对路径转换而来
+    # 例如 PythonLearn/PythonPackage/Flask/images/cover-image.png 其 cover_image_url = "redered-articles/PythonLearn-PythonPackage-Flask/images/cover-image.png"
     cover_image_url: Mapped[str] = mapped_column(String(100))
 
     # 文章发布时间

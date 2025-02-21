@@ -4,9 +4,11 @@
 #
 #    pip-compile requirements.in
 #
+beautifulsoup4==4.13.3
+    # via -r requirements.in
 blinker==1.8.2
     # via flask
-click==8.1.7
+click==8.1.8
     # via flask
 flask==3.0.3
     # via
@@ -38,12 +40,16 @@ python-frontmatter==1.1.0
     # via -r requirements.in
 pyyaml==6.0.2
     # via python-frontmatter
-sqlalchemy==2.0.36
+soupsieve==2.6
+    # via beautifulsoup4
+sqlalchemy==2.0.38
     # via
     #   -r requirements.in
     #   flask-sqlalchemy
 typing-extensions==4.12.2
-    # via sqlalchemy
+    # via
+    #   beautifulsoup4
+    #   sqlalchemy
 werkzeug==3.0.6
     # via flask
 zipp==3.20.2
