@@ -1,17 +1,16 @@
 # About the website
 
 ## articles-sync container
-这个 container 用于管理我的 markdown 笔记文章, 我的笔记文章存放在一个 github repository 中，并且常常更新
-它的主要作用是每天定期的 git pull 这个 repos 到某一个目录中，而这个目录实际上是一个 docker volumes 挂载上去的，它对这个目录有读写的权限
+articles-sync container 用于管理我的 markdown 笔记文章, 使用 alpine:3.19 作为image
+因为我的笔记文章存放在一个 github repository 中，并且常常更新，所以它的主要作用是每天定期的 git pull 这个 github repository 到某一个目录中，而这个目录实际上是一个 docker volumes 挂载上去的，它对这个目录有读写的权限
 我使用 crond 定期执行一个 shell 脚本来实现定期 git pull, 并且将 cornd 执行日志， shell 脚本执行日志使用了 logrotate 防止它过大
-它使用alpine linux
 
 ## web-app container
 web-app container 作为我的网站主体，使用 python flask 3.x 开发, 使用 python:3.9 slim 作为image
-它同样挂载docker volumes, 但是对其只有读的权限，他会去这个目录下拿取我的 markdown 文章
-首先提取 metadata 插入数据库，然后处理文章的内容，我使用 python-markdown 将其渲染为 html 并且存放在某一个目录下
+它同样挂载 docker volumes, 但是对其只有读的权限，他会去这个目录下拿取我的 markdown 文章
+首先提取 metadata 插入数据库，然后处理文章的内容，我使用 python-markdown 将其渲染为 html 并且存放在 rendered-articles 目录下
 并将这个目录注册为一个staic folder, 这样子 flask 路由函数就可以找到这些 html
-为了实现一些特殊的 markdown 渲染效果，我自己写了一些 python-markdown extension, 比如说客制化的 GFM-admonition
+为了实现一些特殊的 markdown 渲染效果，我自己写了一些 python-markdown extension, 比如说客制化的 GFM-admonition 等
 
 ### rendered-articles design
 我原本的 markdown 笔记结构如下所示
