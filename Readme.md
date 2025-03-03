@@ -73,13 +73,4 @@ category: Mapped[str] = mapped_column(String(1024))
 2/ try to use bootstrap5 to opt the css effect
 3/ connect to sqlite database to show the data in the sqlite
 4/ consider intergate the logs in platform
-
-
-
-
-
-
-
-
-
-
+5/ consider choose a productive WSGI server instead of flask default development server
