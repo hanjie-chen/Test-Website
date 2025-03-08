@@ -21,8 +21,9 @@ class Image_Path_Processor(Postprocessor):
             src = img.get("src", "")
             if src.startswith("./"):
                 img["src"] = urljoin(self.base_url, src[2:])
-                print("base_url = ", self.base_url)
-                print("Update image src to ",img["src"])
+                # debug the image url
+                # print("base_url = ", self.base_url)
+                # print("Update image src to ",img["src"])
 
         return str(soup)
     
