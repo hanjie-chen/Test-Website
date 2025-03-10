@@ -1,6 +1,6 @@
 import markdown
 import os
-from custom_md_extensions import Gfm_Admonition_Extension, Image_Path_Extension
+from custom_md_extensions import Gfm_Admonition_Extension, Image_Processor_Extension
 
 def render_markdown_to_html(markdown_content: str, filename: str, destination_folder: str):
     """generate html file to destination folder
@@ -19,7 +19,7 @@ def render_markdown_to_html(markdown_content: str, filename: str, destination_fo
         'sane_lists', 
         'codehilite', 
         Gfm_Admonition_Extension(),
-        Image_Path_Extension(base_url=destination_folder)
+        Image_Processor_Extension(base_url=destination_folder)
     ]
 
     my_extension_configs = {
