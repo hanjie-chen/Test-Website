@@ -70,7 +70,10 @@ category: Mapped[str] = mapped_column(String(1024))
 # future consider
 
 1/ add nginx container as reverse proxy
-2/ try to use bootstrap5 to opt the css effect
-3/ connect to sqlite database to show the data in the sqlite
-4/ consider intergate the logs in platform
-5/ consider choose a productive WSGI server instead of flask default development server
+2/ connect to sqlite database to show the data in the sqlite
+3/ consider intergate the logs in platform
+4/ consider choose a productive WSGI server instead of flask default development server
+
+## optimization
+1/ try to use bootstrap5 to opt the css effect
+2/ consider the font subsetting, speed up font load
