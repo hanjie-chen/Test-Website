@@ -20,8 +20,9 @@ def divide_files_and_folders(path: str):
     """
     all_items = os.listdir(path)
     # ignore the folder named "__<foldername>__" and ".<foldername>"
+    # for dev, let shows the "__template__" for md render test
     files_and_folders = [item for item in all_items if not (
-        (item.startswith('__') and item.endswith('__')) or 
+        # (item.startswith('__') and item.endswith('__')) or 
         item.startswith('.')
                         )]
     files = [file for file in files_and_folders if os.path.isfile(os.path.join(path, file))]

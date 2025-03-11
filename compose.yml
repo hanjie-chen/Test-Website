@@ -4,8 +4,6 @@ services:
     build:
       context: ./web-app
       dockerfile: Dockerfile
-    ports:
-      - "8080:5000"
     volumes:
       - articles_data:/articles-data:ro
       # bind mount used to develop env, need to delete when product env
@@ -33,6 +31,17 @@ services:
           ignore:
             - logs/**
           action: rebuild
+  
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./nginx/logs:/var/log/nginx
+    depends_on:
+      - web-app
 
 volumes:
   articles_data:
