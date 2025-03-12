@@ -1,5 +1,9 @@
 # About the website
 
+## nginx
+nginx container 作为反向代理，暴露端口在外
+未来考虑为图片等静态资源设置缓存， 配置 https, 将 redendered-articles 目录挂载到 nginx (需要考虑重新防止 rendered-articles的位置)
+
 ## articles-sync container
 articles-sync container 用于管理我的 markdown 笔记文章, 使用 alpine:3.19 作为image
 因为我的笔记文章存放在一个 github repository 中，并且常常更新，所以它的主要作用是每天定期的 git pull 这个 github repository 到某一个目录中，而这个目录实际上是一个 docker volumes 挂载上去的，它对这个目录有读写的权限
@@ -69,7 +73,6 @@ category: Mapped[str] = mapped_column(String(1024))
 
 # future consider
 
-1/ add nginx container as reverse proxy
 2/ connect to sqlite database to show the data in the sqlite
 3/ consider intergate the logs in platform
 4/ consider choose a productive WSGI server instead of flask default development server
