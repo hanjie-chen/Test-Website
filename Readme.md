@@ -2,7 +2,7 @@
 
 ## nginx
 nginx container 作为反向代理，暴露端口在外
-未来考虑为图片等静态资源设置缓存， 配置 https, 将 redendered-articles 目录挂载到 nginx (需要考虑重新防止 rendered-articles的位置)
+未来考虑为图片等静态资源设置缓存， 配置 https, 将 redendered-articles 目录挂载到 nginx (需要考虑重新放置 rendered-articles 的位置，从web-app 目录中移除)
 
 ## articles-sync container
 articles-sync container 用于管理我的 markdown 笔记文章, 使用 alpine:3.19 作为image
@@ -74,7 +74,7 @@ category: Mapped[str] = mapped_column(String(1024))
 # future consider
 
 2/ connect to sqlite database to show the data in the sqlite
-3/ consider intergate the logs in platform
+3/ consider intergate all the logs in a platform
 4/ consider choose a productive WSGI server instead of flask default development server
 
 ## optimization

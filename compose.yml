@@ -6,10 +6,11 @@ services:
       dockerfile: Dockerfile
     volumes:
       - articles_data:/articles-data:ro
-      # bind mount used to develop env, need to delete when product env
-      - ./web-app:/app
+      - ./web-app:/app # bind mount used to develop env, need to delete when product env
+      - rendered_articles:/app/rendered-articles # develop env, storage the rendered html files in docker volume
     environment:
       - ARTICLES_DIRECTORY=/articles-data
+      - RENDERED_DIRECTORY=/rendered-articles # develop env
       - FLASK_APP=app.py
 
   articles-sync:
@@ -44,4 +45,5 @@ services:
       - web-app
 
 volumes:
-  articles_data:
+  articles_data: # source markdown files volume
+  rendered_articles: # the html files volme which rendered form source markdown file
