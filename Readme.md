@@ -2,7 +2,17 @@
 
 ## nginx
 nginx container 作为反向代理，暴露端口在外
-未来考虑为图片等静态资源设置缓存， 配置 https, 将 redendered-articles 目录挂载到 nginx (需要考虑重新放置 rendered-articles 的位置，从web-app 目录中移除)
+
+### document root
+将 rendered-articles 作为一个 volume 挂载在 /usr/share/nginx/html 下面，将其作为 document root
+但是在 web-app 中会直接读取 /rendered-articles 中的 html 然后以字符串的方式将 html 传递给 articles_details.html 完成渲染，所以这个地方使用nginx的document root, 需要修改其逻辑以方便 nginx 提供静态服务
+
+以及 flask static 文件夹似乎也可以放到 nginx document root 中去
+
+### waf integration
+在 nginx 中集成 waf 服务
+暂时采用 owasp/modsecurity:nginx-alpine 镜像，快速部署 WAF。
+后续可能尝试自己构建 nginx:apline + modsecurity waf 的 Dockerfile WAF 配置。
 
 ## articles-sync container
 articles-sync container 用于管理我的 markdown 笔记文章, 使用 alpine:3.19 作为image
@@ -80,3 +90,9 @@ category: Mapped[str] = mapped_column(String(1024))
 ## optimization
 1/ try to use bootstrap5 to opt the css effect
 2/ consider the font subsetting, speed up font load
+
+
+# Web architecture
+
+目前的架构是 cloudflare (free plan) --> azure front door --> linux vm(3 containers)
+因为 cloudflare free plan 提供一些最基础的 waf + 在 nginx 上面安装 waf (如果之后遇到了需要 autoscale 的情况，在将 waf container 分离出来,方便 autoscale)

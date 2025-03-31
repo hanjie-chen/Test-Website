@@ -10,7 +10,7 @@ services:
       - rendered_articles:/app/rendered-articles # develop env, storage the rendered html files in docker volume
     environment:
       - ARTICLES_DIRECTORY=/articles-data
-      - RENDERED_DIRECTORY=/rendered-articles # develop env
+      - RENDERED_DIRECTORY=/rendered-articles
       - FLASK_APP=app.py
 
   articles-sync:
@@ -33,14 +33,15 @@ services:
             - logs/**
           action: rebuild
   
-  nginx:
-    image: nginx:alpine
-    container_name: nginx
+  nginx-modsecurity:
+    image: owasp/modsecurity-crs:nginx-alpine
+    container_name: nginx-modsecurity
     ports:
       - "80:80"
     volumes:
       - ./nginx/conf.d:/etc/nginx/conf.d
       - ./nginx/logs:/var/log/nginx
+      - rendered_articles:/usr/share/nginx/html/rendered-articles
     depends_on:
       - web-app
 
