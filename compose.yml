@@ -44,6 +44,9 @@ services:
       - rendered_articles:/usr/share/nginx/html/rendered-articles
     depends_on:
       - web-app
+    environment:
+      - MODSEC_AUDIT_LOG=/var/log/nginx/modsec-audit.log
+      
 
 volumes:
   articles_data: # source markdown files volume
