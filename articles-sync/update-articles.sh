@@ -9,6 +9,7 @@ log_message() {
 
 echo "----------------------------------------" >> "$GIT_LOG"
 log_message "Starting articles synchronization"
+log_message "Using REPO_BRANCH: $REPO_BRANCH"
 
 # go to articles dir
 cd /articles-data || {
@@ -26,7 +27,7 @@ fi
 if /usr/bin/git pull origin "$REPO_BRANCH" >> "$GIT_LOG" 2>&1; then
     log_message "Git pull successful"
 else
-    log_message "Git pull failed"
+    log_message "Git pull failed with exit code $?"
     exit 1
 fi
 
