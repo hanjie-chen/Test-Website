@@ -26,12 +26,6 @@ services:
       - GITHUB_REPO=https://github.com/hanjie-chen/PersonalArticles.git
       - REPO_BRANCH=main
       - LOG_DIR=/var/log/personal-website
-    develop:
-      watch:
-        - path: ./articles-sync
-          ignore:
-            - logs/**
-          action: rebuild
   
   nginx-modsecurity:
     image: owasp/modsecurity-crs:nginx-alpine

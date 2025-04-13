@@ -11,10 +11,9 @@ RUN apk add --no-cache git dcron logrotate
 RUN addgroup -g ${GROUP_ID} -S appgroup && \
     adduser -u ${USER_ID} -S appuser -G appgroup
 
-# create log directory and log file, change the files owner to appuser
+# create log directory, change the dir owner to appuser
 RUN mkdir -p /var/log/personal-website && \
-    touch /var/log/personal-website/{articles-sync,crond}.log &&\
-    chown -R appuser:appgroup /var/log/personal-website/*.log
+    chown appuser:appgroup /var/log/personal-website
 
 # create logrotate dir and copy file
 COPY logrotate.conf /etc/logrotate.d/personal-website
