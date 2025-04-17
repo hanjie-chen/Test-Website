@@ -33,8 +33,9 @@ services:
     ports:
       - "80:80"
     volumes:
-      - ./nginx/conf.d:/etc/nginx/conf.d
-      - ./nginx/logs:/var/log/nginx
+      # bind mount user to dev env
+      - ./nginx-modsecurity/conf.d:/etc/nginx/conf.d
+      - ./nginx-modsecurity/logs:/var/log/nginx
       - rendered_articles:/usr/share/nginx/html/rendered-articles
     depends_on:
       - web-app
