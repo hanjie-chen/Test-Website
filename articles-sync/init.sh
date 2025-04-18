@@ -42,11 +42,15 @@ else
     fi
 fi
 
-# use > and here document, make sure the crontab file is overwritten
-cat << EOF > /etc/crontabs/root
+# Create a temporary crontab file
+cat << EOF > /tmp/crontab
 0 16 * * * /usr/local/bin/update-articles.sh >> /var/log/personal-website/articles-sync.log 2>&1
 0 2 * * * /usr/sbin/logrotate /etc/logrotate.d/personal-website
 EOF
+
+# Install crontab for appuser, then delete it
+crontab /tmp/crontab
+rm /tmp/crontab
 
 # 设置 umask
 umask 022
