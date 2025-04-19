@@ -4,8 +4,8 @@ FROM alpine:3.21
 ARG USER_ID=1000
 ARG GROUP_ID=1000
 
-# install git, dcron, logrotate
-RUN apk add --no-cache git dcron logrotate
+# install git, dcron, logrotate, tini
+RUN apk add --no-cache git dcron logrotate tini
 
 # create a group(appgroup) and user(appuser) with args
 RUN addgroup -g ${GROUP_ID} -S appgroup && \
@@ -27,7 +27,13 @@ COPY --chown=appuser:appgroup update-articles.sh init.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/update-articles.sh && \
     chmod +x /usr/local/bin/init.sh
 
+# let appuser have permission to run crontab, crond command
+RUN chmod o+x /usr/bin/crontab &&\
+    chmod u+s /usr/sbin/crond  &&\
+    chmod o+x /usr/sbin/crond
+
 # switch the non-root user to run the script
 USER appuser
 
-ENTRYPOINT [ "/usr/local/bin/init.sh" ]
+ENTRYPOINT ["/sbin/tini", "--"]
+CMD ["/usr/local/bin/init.sh"]
