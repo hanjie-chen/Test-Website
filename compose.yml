@@ -34,8 +34,9 @@ services:
       - "80:80"
     volumes:
       # bind mount user to dev env
-      - ./nginx-modsecurity/conf.d:/etc/nginx/conf.d
+      - ./nginx-modsecurity/conf.d/default.conf:/etc/nginx/templates/conf.d/default.conf.template
       - ./nginx-modsecurity/logs:/var/log/nginx
+      # docker volume mount
       - rendered_articles:/usr/share/nginx/html/rendered-articles
     depends_on:
       - web-app
