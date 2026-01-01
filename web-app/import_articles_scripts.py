@@ -20,8 +20,9 @@ def divide_files_and_folders(path: str):
     """
     all_items = os.listdir(path)
     # ignore the folder named "__<foldername>__" and ".<foldername>"
+    # for dev, let shows the "__template__" for md render test
     files_and_folders = [item for item in all_items if not (
-        (item.startswith('__') and item.endswith('__')) or 
+        # (item.startswith('__') and item.endswith('__')) or 
         item.startswith('.')
                         )]
     files = [file for file in files_and_folders if os.path.isfile(os.path.join(path, file))]
@@ -188,12 +189,16 @@ def import_articles(root_dir: str, db: SQLAlchemy):
                 sub_dir_path = os.path.join(current_dir, folder)
                 _recursive_scan(sub_dir_path)
 
-    # if rednered-articles folder/file exists before, delete it
+    # if rednered-articles folder exists before, delete all files in there
+    # for dev env
     if os.path.exists(Rendered_Articles):
-        if os.path.isdir(Rendered_Articles):
-            shutil.rmtree(Rendered_Articles)
-        else:
-            os.remove(Rendered_Articles)
+        for root, dirs, files in os.walk(Rendered_Articles, topdown=False):
+            for file in files:
+                os.remove(os.path.join(root, file))
+            for dir in dirs:
+                os.rmdir(os.path.join(root, dir))
+
+        
     # recursive articles directory and rendered it
     _recursive_scan(root_dir)
     db.session.commit()

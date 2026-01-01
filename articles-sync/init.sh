@@ -7,41 +7,53 @@ CROND_LOG="/var/log/personal-website/crond.log"
 GITHUB_REPO="${GITHUB_REPO:-https://github.com/hanjie-chen/PersonalArticles.git}"
 REPO_BRANCH="${REPO_BRANCH:-main}"
 
+# record the time
 log_message() {
     echo "[$(date '+%Y-%m-%d %H:%M:%S')] [INIT] $1" | tee -a "$GIT_LOG"
 }
+# record the repo and branch message
+log_message "Using GITHUB_REPO: $GITHUB_REPO"
+log_message "Using REPO_BRANCH: $REPO_BRANCH"
 
-# 确保日志目录存在
+# confirm the log dir and files exist
 for log_file in "$GIT_LOG" "$CROND_LOG"; do
     if [ ! -d "$(dirname "$log_file")" ]; then
         mkdir -p "$(dirname "$log_file")"
+    fi
+    if [ ! -f "$log_file" ]; then
         touch "$log_file"
         chmod 644 "$log_file"
     fi
 done
 
-# 检查目录是否为空
+# initial the repo or update the repo
 if [ -z "$(ls -A $ARTICLES_DIR)" ]; then
     log_message "Initializing articles directory..."
-    git clone "$GITHUB_REPO" -b "$REPO_BRANCH" .
+    if ! git clone "$GITHUB_REPO" -b "$REPO_BRANCH" "$ARTICLES_DIR"; then
+        log_message "Git clone failed"
+        exit 1
+    fi
     log_message "Repository cloned successfully"
 else
     log_message "Articles directory exists, performing update..."
-    # 执行更新脚本
-    /usr/local/bin/update-articles.sh
+    if ! /usr/local/bin/update-articles.sh; then
+        log_message "run update-articles.sh scripts failed"
+        exit 1
+    fi
 fi
 
-# use > and here document, make sure the crontab file is overwritten
-cat << EOF > /etc/crontabs/root
+# Create a temporary crontab file
+cat << EOF > /tmp/crontab
 0 16 * * * /usr/local/bin/update-articles.sh >> /var/log/personal-website/articles-sync.log 2>&1
 0 2 * * * /usr/sbin/logrotate /etc/logrotate.d/personal-website
 EOF
 
+# Install crontab for appuser, then delete it
+crontab /tmp/crontab
+rm /tmp/crontab
+
 # 设置 umask
 umask 022
 
-# 启动 crond 在后台
-crond -b -L "$CROND_LOG" -l 6
-
-# 使用 tail 作为前台进程
-exec tail -f "$GIT_LOG" "$CROND_LOG"
+# set crond as main process
+exec crond -f -L "$CROND_LOG" -l 6

@@ -11,8 +11,7 @@ app = Flask(__name__)
 # configure the database uri
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///project.db'
 # Register rendered_articles as additional static folder
-app.config['RENDERED_ARTICLES_FOLDER'] = os.path.join(app.root_path, Rendered_Articles)
-# add to test
+app.config['RENDERED_ARTICLES_FOLDER'] = Rendered_Articles
 
 
 # 注册rendered-articles为静态文件夹
@@ -86,7 +85,7 @@ def debug_info():
     articles = db.session.execute(db.select(Article_Meta_Data)).scalars().all()
     db_info = "Database Articles:\n"
     for article in articles:
-        db_info += f"ID: {article.id}, Title: {article.title}, Category: {article.category}\n"
+        db_info += f"ID: {article.id}, Title: {article.title}, Category: {article.category}, Cover_image_url: {article.cover_image_url}\n"
     
     # 2. 检查rendered_articles目录
     rendered_path = app.config['RENDERED_ARTICLES_FOLDER']
