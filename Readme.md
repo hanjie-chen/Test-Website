@@ -80,6 +80,9 @@ category: Mapped[str] = mapped_column(String(1024))
 
 
 
+# website design
 
+consider:
 
+[Windows | Oh My Posh](https://ohmyposh.dev/docs/installation/windows#update)
 
