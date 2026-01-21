@@ -19,8 +19,8 @@ RUN mkdir -p /var/log/personal-website && \
 COPY logrotate.conf /etc/logrotate.d/personal-website
 
 # create working dir and set permission to appuser
-RUN mkdir -p /articles-data && chown appuser:appgroup /articles-data
-WORKDIR /articles-data
+RUN mkdir -p /articles/src && chown -R appuser:appgroup /articles
+WORKDIR /articles/src
 
 # copy the scripts, provide the permission, and set cron jobs
 COPY --chown=appuser:appgroup update-articles.sh init.sh /usr/local/bin/

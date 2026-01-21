@@ -5,12 +5,12 @@ services:
       context: ./web-app
       dockerfile: Dockerfile
     volumes:
-      - articles_data:/articles-data:ro
       - ./web-app:/app # bind mount used to develop env, need to delete when product env
-      - rendered_articles:/app/rendered-articles # develop env, storage the rendered html files in docker volume
+      - rendered_html_articles:/articles/rendered # develop env, storage the rendered html files in docker volume
+      - source_md_articles:/articles/src:ro
     environment:
-      - ARTICLES_DIRECTORY=/articles-data
-      - RENDERED_DIRECTORY=/rendered-articles
+      - SOURCE_ARTICLES_DIRECTORY=/articles/src
+      - RENDERED_ARTICLES_DIRECTORY=/articles/rendered
       - FLASK_APP=app.py
 
   articles-sync:
@@ -19,11 +19,12 @@ services:
       context: ./articles-sync
       dockerfile: Dockerfile
     volumes:
-      - articles_data:/articles-data:rw
+      - source_md_articles:/articles/src:rw
       # bind mount conainer logs folder, used to devlop env
       - ./articles-sync/logs:/var/log/personal-website
     environment:
       - GITHUB_REPO=https://github.com/hanjie-chen/PersonalArticles.git
+      - SOURCE_ARTICLES_DIRECTORY=/articles/src
       - REPO_BRANCH=main
       - LOG_DIR=/var/log/personal-website
   
@@ -37,7 +38,7 @@ services:
       - ./nginx-modsecurity/conf.d/default.conf:/etc/nginx/templates/conf.d/default.conf.template
       - ./nginx-modsecurity/logs:/var/log/nginx
       # docker volume mount
-      - rendered_articles:/usr/share/nginx/html/rendered-articles
+      - rendered_html_articles:/usr/share/nginx/html/rendered-articles
     depends_on:
       - web-app
     environment:
@@ -45,5 +46,5 @@ services:
       
 
 volumes:
-  articles_data: # source markdown files volume
-  rendered_articles: # the html files volme which rendered form source markdown file
+  source_md_articles: # source markdown files volume
+  rendered_html_articles: # the html files volme which rendered form source markdown file

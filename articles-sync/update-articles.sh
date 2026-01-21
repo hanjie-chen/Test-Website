@@ -1,6 +1,8 @@
 #!/bin/sh
 
-GIT_LOG="/var/log/personal-website/articles-sync.log"
+LOG_DIR="${LOG_DIR:-/var/log/personal-website}"
+GIT_LOG="$LOG_DIR/articles-sync.log"
+ARTICLES_DIR="${SOURCE_ARTICLES_DIRECTORY:-/articles/src}"
 REPO_BRANCH="${REPO_BRANCH:-main}"
 
 log_message() {
@@ -12,14 +14,14 @@ log_message "Starting articles synchronization"
 log_message "Using REPO_BRANCH: $REPO_BRANCH"
 
 # go to articles dir
-cd /articles-data || {
-    log_message "Failed to change directory to /articles-data"
+cd "$ARTICLES_DIR" || {
+    log_message "Failed to change directory to /articles/src"
     exit 1
 }
 
 # check if it is a git repo
 if [ ! -d ".git" ]; then
-    log_message "/articles-data is not a git repository"
+    log_message "/articles/src is not a git repository"
     exit 1
 fi
 
