@@ -1,4 +1,17 @@
 services:
+
+  articles-sync:
+    container_name: articles-sync
+    build:
+      context: ./articles-sync
+      dockerfile: Dockerfile
+    volumes:
+      - source_md_articles:/articles/src:rw
+    environment:
+      - GITHUB_REPO=https://github.com/hanjie-chen/PersonalArticles.git
+      - SOURCE_ARTICLES_DIRECTORY=/articles/src
+      - REPO_BRANCH=main
+
   web-app:
     container_name: web-app
     build:
@@ -12,21 +25,6 @@ services:
       - SOURCE_ARTICLES_DIRECTORY=/articles/src
       - RENDERED_ARTICLES_DIRECTORY=/articles/rendered
       - FLASK_APP=app.py
-
-  articles-sync:
-    container_name: articles-sync
-    build:
-      context: ./articles-sync
-      dockerfile: Dockerfile
-    volumes:
-      - source_md_articles:/articles/src:rw
-      # bind mount conainer logs folder, used to devlop env
-      - ./articles-sync/logs:/var/log/personal-website
-    environment:
-      - GITHUB_REPO=https://github.com/hanjie-chen/PersonalArticles.git
-      - SOURCE_ARTICLES_DIRECTORY=/articles/src
-      - REPO_BRANCH=main
-      - LOG_DIR=/var/log/personal-website
   
   nginx-modsecurity:
     image: owasp/modsecurity-crs:nginx-alpine

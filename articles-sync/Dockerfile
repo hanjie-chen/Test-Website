@@ -4,8 +4,8 @@ FROM alpine:3.21
 ARG USER_ID=1000
 ARG GROUP_ID=1000
 
-# install git, dcron, logrotate, tini
-RUN apk add --no-cache git dcron logrotate tini
+# install git, dcron, tini
+RUN apk add --no-cache git dcron tini
 
 # create a group(appgroup) and user(appuser) with args
 RUN addgroup -g ${GROUP_ID} -S appgroup && \
@@ -14,9 +14,6 @@ RUN addgroup -g ${GROUP_ID} -S appgroup && \
 # create log directory, change the dir owner to appuser
 RUN mkdir -p /var/log/personal-website && \
     chown appuser:appgroup /var/log/personal-website
-
-# create logrotate dir and copy file
-COPY logrotate.conf /etc/logrotate.d/personal-website
 
 # create working dir and set permission to appuser
 RUN mkdir -p /articles/src && chown -R appuser:appgroup /articles
