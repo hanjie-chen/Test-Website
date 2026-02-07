@@ -3,16 +3,15 @@ from models import db, Article_Meta_Data
 from import_articles_scripts import import_articles
 import os
 
-from config import Articles_Directory, Rendered_Articles
+from config import Articles_Directory, Rendered_Articles, IS_DEV, SQLALCHEMY_DATABASE_URI
 
 
 app = Flask(__name__)
 
 # configure the database uri
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///project.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = SQLALCHEMY_DATABASE_URI
 # Register rendered_articles as additional static folder
 app.config['RENDERED_ARTICLES_FOLDER'] = Rendered_Articles
-
 
 # 注册rendered-articles为静态文件夹
 app.add_url_rule('/rendered-articles/<path:filename>',
@@ -23,9 +22,12 @@ app.add_url_rule('/rendered-articles/<path:filename>',
 db.init_app(app)
 
 with app.app_context():
-    db.drop_all()
-    db.create_all()
-    import_articles(Articles_Directory, db)
+    if IS_DEV:
+        db.drop_all()
+        db.create_all()
+        import_articles(Articles_Directory, db)
+    else:
+        db.create_all()
 
 @app.route("/")
 def index():
@@ -78,28 +80,29 @@ def view_article(article_id):
                          )
 
 
-# 在路由函数之前添加这些调试代码
-@app.route("/debug")
-def debug_info():
-    # 1. 检查数据库中的文章
-    articles = db.session.execute(db.select(Article_Meta_Data)).scalars().all()
-    db_info = "Database Articles:\n"
-    for article in articles:
-        db_info += f"ID: {article.id}, Title: {article.title}, Category: {article.category}, Cover_image_url: {article.cover_image_url}\n"
-    
-    # 2. 检查rendered_articles目录
-    rendered_path = app.config['RENDERED_ARTICLES_FOLDER']
-    dir_info = f"\nRendered Articles Directory ({rendered_path}):\n"
-    if os.path.exists(rendered_path):
-        for root, dirs, files in os.walk(rendered_path):
-            dir_info += f"Directory: {root}\n"
-            for file in files:
-                dir_info += f"  File: {file}\n"
-    else:
-        dir_info += "Directory does not exist!\n"
-    
-    # 3. 显示应用
-    config_info = "\nApp Configuration:\n"
-    config_info += f"RENDERED_ARTICLES_FOLDER: {app.config['RENDERED_ARTICLES_FOLDER']}\n"
-    
-    return f"<pre>{db_info}\n{dir_info}\n{config_info}</pre>"
+if IS_DEV:
+    # 在路由函数之前添加这些调试代码
+    @app.route("/debug")
+    def debug_info():
+        # 1. 检查数据库中的文章
+        articles = db.session.execute(db.select(Article_Meta_Data)).scalars().all()
+        db_info = "Database Articles:\n"
+        for article in articles:
+            db_info += f"ID: {article.id}, Title: {article.title}, Category: {article.category}, Cover_image_url: {article.cover_image_url}\n"
+        
+        # 2. 检查rendered_articles目录
+        rendered_path = app.config['RENDERED_ARTICLES_FOLDER']
+        dir_info = f"\nRendered Articles Directory ({rendered_path}):\n"
+        if os.path.exists(rendered_path):
+            for root, dirs, files in os.walk(rendered_path):
+                dir_info += f"Directory: {root}\n"
+                for file in files:
+                    dir_info += f"  File: {file}\n"
+        else:
+            dir_info += "Directory does not exist!\n"
+        
+        # 3. 显示应用
+        config_info = "\nApp Configuration:\n"
+        config_info += f"RENDERED_ARTICLES_FOLDER: {app.config['RENDERED_ARTICLES_FOLDER']}\n"
+        
+        return f"<pre>{db_info}\n{dir_info}\n{config_info}</pre>"

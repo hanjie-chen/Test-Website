@@ -11,7 +11,7 @@ COPY requirements.txt .
 RUN pip install -r requirements.txt
 
 # product env used, dev env use bind mount, which define in the compose.yml
-# COPY . .
+COPY . .
 
 # 暴露端口（Flask默认使用5000端口）
 EXPOSE 5000

@@ -1,0 +1,16 @@
+services:
+  web-app:
+    volumes:
+      - ./web-app:/app
+      - rendered_html_articles:/articles/rendered
+      - source_md_articles:/articles/src:ro
+    environment:
+      - APP_ENV=development
+      - FLASK_ENV=development
+      - - SQLALCHEMY_DATABASE_URI=sqlite:///project_test.db
+
+  nginx-modsecurity:
+    volumes:
+      - ./nginx-modsecurity/conf.d/default.conf:/etc/nginx/templates/conf.d/default.conf.template
+      - ./nginx-modsecurity/logs:/var/log/nginx
+      - rendered_html_articles:/usr/share/nginx/html/rendered-articles

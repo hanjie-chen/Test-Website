@@ -42,6 +42,13 @@ class Article_Meta_Data(db.Model):
     # 例如 PersonalActicles/PythonLearn/PythonPackage/Flask/Basic.md 其 category = "PythonLearn/PythonPackage/Flask"
     # 暂时定义最大长度 1024 个字符
     category: Mapped[str] = mapped_column(String(1024))
+
+    # 文章文件相对路径（用于唯一标识）
+    # 例如 PythonLearn/PythonPackage/Flask/Basic.md
+    file_path: Mapped[str] = mapped_column(String(1024), unique=True)
+
+    # 文章内容哈希，用于判断是否需要更新
+    content_hash: Mapped[str] = mapped_column(String(64))
     
     # 文章分类 使用 mptt 待开发和测试
     # 关于category 在metadata中并不显示指定 而是根据路径来 比如说 ~/PersonalArticles/PythonLearn/PythonPackage/Basic.md

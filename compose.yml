@@ -1,5 +1,5 @@
 services:
-
+  # pull github articles repo once a day
   articles-sync:
     container_name: articles-sync
     build:
@@ -18,13 +18,13 @@ services:
       context: ./web-app
       dockerfile: Dockerfile
     volumes:
-      - ./web-app:/app # bind mount used to develop env, need to delete when product env
-      - rendered_html_articles:/articles/rendered # develop env, storage the rendered html files in docker volume
+      - rendered_html_articles:/articles/rendered
       - source_md_articles:/articles/src:ro
     environment:
       - SOURCE_ARTICLES_DIRECTORY=/articles/src
       - RENDERED_ARTICLES_DIRECTORY=/articles/rendered
       - FLASK_APP=app.py
+      - APP_ENV=production
   
   nginx-modsecurity:
     image: owasp/modsecurity-crs:nginx-alpine
@@ -32,9 +32,7 @@ services:
     ports:
       - "80:80"
     volumes:
-      # bind mount user to dev env
       - ./nginx-modsecurity/conf.d/default.conf:/etc/nginx/templates/conf.d/default.conf.template
-      - ./nginx-modsecurity/logs:/var/log/nginx
       # docker volume mount
       - rendered_html_articles:/usr/share/nginx/html/rendered-articles
     depends_on:

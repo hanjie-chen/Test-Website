@@ -2,7 +2,7 @@ import markdown
 import os
 from custom_md_extensions import Gfm_Admonition_Extension, Image_Processor_Extension
 
-def render_markdown_to_html(markdown_content: str, filename: str, destination_folder: str):
+def render_markdown_to_html(markdown_content: str, filename: str, destination_folder: str) -> bool:
     """generate html file to destination folder
     
     Args:
@@ -48,5 +48,7 @@ def render_markdown_to_html(markdown_content: str, filename: str, destination_fo
         with open(output_path, 'w', encoding='utf-8') as f:
             f.write(html_template)
         print(f"Successfully rendered HTML to {destination_folder}")
+        return True
     except Exception as e:
         print(f"Error writing HTML file: {e}")
+        return False
