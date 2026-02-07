@@ -36,6 +36,21 @@ docker compose -f compose.yml up -d
 docker compose -f compose.yml -f compose.dev.yml up
 ```
 
+### 初始化与 Reindex
+- 初始化只需要执行一次，用于建表并导入所有文章：
+```
+docker compose exec -T web-app python scripts/init_db.py
+```
+- 日常更新由 `articles-sync` 触发：
+  - `articles-sync` 完成 `git pull` 后会调用 web-app 内部接口触发 reindex
+  - reindex 会增量更新文章与 HTML（不会清空数据库）
+  - 需要在 `.env` 中配置 `REIMPORT_ARTICLES_TOKEN`
+
+`.env` 示例（不要提交到 Git）：
+```
+REIMPORT_ARTICLES_TOKEN=change-me
+```
+
 ### rendered-articles design
 我原本的 markdown 笔记结构如下所示
 ```
@@ -96,15 +111,9 @@ category: Mapped[str] = mapped_column(String(1024))
 因为 cloudflare free plan 提供一些最基础的 waf + 在 nginx 上面安装 waf (如果之后遇到了需要 autoscale 的情况，在将 waf container 分离出来,方便 autoscale)
 
 # future consider
-
-1/ add nginx container as reverse proxy
 2/ try to use bootstrap5 to opt the css effect
 3/ connect to sqlite database to show the data in the sqlite
 4/ consider intergate the logs in platform
-5/ gunicorn prod server
-6/ prod env, import_articles() change
-
-
 
 
 

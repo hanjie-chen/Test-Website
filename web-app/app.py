@@ -3,7 +3,13 @@ from models import db, Article_Meta_Data
 from import_articles_scripts import import_articles
 import os
 
-from config import Articles_Directory, Rendered_Articles, IS_DEV, SQLALCHEMY_DATABASE_URI
+from config import (
+    Articles_Directory,
+    Rendered_Articles,
+    IS_DEV,
+    SQLALCHEMY_DATABASE_URI,
+    REIMPORT_ARTICLES_TOKEN,
+)
 
 
 app = Flask(__name__)
@@ -21,27 +27,19 @@ app.add_url_rule('/rendered-articles/<path:filename>',
 # 初始化应用
 db.init_app(app)
 
-with app.app_context():
-    if IS_DEV:
-        db.drop_all()
-        db.create_all()
-        import_articles(Articles_Directory, db)
-    else:
-        db.create_all()
-
 @app.route("/")
 def index():
     # use the file in the templates
     return render_template("index.html")
 
-@app.route("/Articles")
+@app.route("/articles")
 def article_index():
     # 从数据库中获取所有文章
     articles = db.session.execute(db.select(Article_Meta_Data)).scalars().all()
     return render_template("article_index.html", articles=articles)
 
 
-@app.route("/AboutMe")
+@app.route("/about")
 def about_me():
     return render_template("about_me.html")
 
@@ -51,7 +49,7 @@ def page_not_found(error_info):  # 接受异常对象作为参数
     # print(f"Error: {error_info}, Description: {error_info.description}, URL: {request.url}") # 打印错误信息到控制台
     return render_template('404.html', error = error_info, url = request.url), 404  # 将错误信息传递给模板
 
-@app.route("/Articles/<int:article_id>")
+@app.route("/articles/<int:article_id>")
 def view_article(article_id):
     article = db.session.execute(
         db.select(Article_Meta_Data)
@@ -89,7 +87,7 @@ if IS_DEV:
         db_info = "Database Articles:\n"
         for article in articles:
             db_info += f"ID: {article.id}, Title: {article.title}, Category: {article.category}, Cover_image_url: {article.cover_image_url}\n"
-        
+
         # 2. 检查rendered_articles目录
         rendered_path = app.config['RENDERED_ARTICLES_FOLDER']
         dir_info = f"\nRendered Articles Directory ({rendered_path}):\n"
@@ -100,9 +98,23 @@ if IS_DEV:
                     dir_info += f"  File: {file}\n"
         else:
             dir_info += "Directory does not exist!\n"
-        
+
         # 3. 显示应用
         config_info = "\nApp Configuration:\n"
         config_info += f"RENDERED_ARTICLES_FOLDER: {app.config['RENDERED_ARTICLES_FOLDER']}\n"
-        
+
         return f"<pre>{db_info}\n{dir_info}\n{config_info}</pre>"
+
+
+@app.route("/internal/reindex", methods=["POST"])
+def reindex_articles():
+    if not REIMPORT_ARTICLES_TOKEN:
+        abort(404)
+
+    request_token = request.headers.get("X-REIMPORT-ARTICLES-TOKEN", "")
+    if request_token != REIMPORT_ARTICLES_TOKEN:
+        abort(403)
+
+    with app.app_context():
+        import_articles(Articles_Directory, db)
+    return {"status": "ok"}

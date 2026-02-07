@@ -2,7 +2,12 @@ import markdown
 import os
 from custom_md_extensions import Gfm_Admonition_Extension, Image_Processor_Extension
 
-def render_markdown_to_html(markdown_content: str, filename: str, destination_folder: str) -> bool:
+def render_markdown_to_html(
+    markdown_content: str,
+    filename: str,
+    destination_folder: str,
+    url_base_path: str
+) -> bool:
     """generate html file to destination folder
     
     Args:
@@ -19,7 +24,7 @@ def render_markdown_to_html(markdown_content: str, filename: str, destination_fo
         'sane_lists', 
         'codehilite', 
         Gfm_Admonition_Extension(),
-        Image_Processor_Extension(base_url=destination_folder)
+        Image_Processor_Extension(base_url=url_base_path)
     ]
 
     my_extension_configs = {

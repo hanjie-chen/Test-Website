@@ -16,5 +16,5 @@ COPY . .
 # 暴露端口（Flask默认使用5000端口）
 EXPOSE 5000
 
-# 启动命令
-CMD ["flask", "run", "--host=0.0.0.0", "--debug"]
+# 启动命令 (production)
+CMD ["gunicorn", "-w", "2", "-b", "0.0.0.0:5000", "app:app"]

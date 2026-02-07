@@ -4,8 +4,8 @@ FROM alpine:3.21
 ARG USER_ID=1000
 ARG GROUP_ID=1000
 
-# install git, dcron, tini
-RUN apk add --no-cache git dcron tini
+# install git, dcron, tini, curl
+RUN apk add --no-cache git dcron tini curl
 
 # create a group(appgroup) and user(appuser) with args
 RUN addgroup -g ${GROUP_ID} -S appgroup && \

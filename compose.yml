@@ -11,6 +11,8 @@ services:
       - GITHUB_REPO=https://github.com/hanjie-chen/PersonalArticles.git
       - SOURCE_ARTICLES_DIRECTORY=/articles/src
       - REPO_BRANCH=main
+      - WEB_APP_REINDEX_URL=http://web-app:5000/internal/reindex
+      - REIMPORT_ARTICLES_TOKEN=${REIMPORT_ARTICLES_TOKEN}
 
   web-app:
     container_name: web-app
@@ -25,12 +27,18 @@ services:
       - RENDERED_ARTICLES_DIRECTORY=/articles/rendered
       - FLASK_APP=app.py
       - APP_ENV=production
+      - REIMPORT_ARTICLES_TOKEN=${REIMPORT_ARTICLES_TOKEN}
   
   nginx-modsecurity:
     image: owasp/modsecurity-crs:nginx-alpine
     container_name: nginx-modsecurity
     ports:
       - "80:80"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost/ || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
     volumes:
       - ./nginx-modsecurity/conf.d/default.conf:/etc/nginx/templates/conf.d/default.conf.template
       # docker volume mount

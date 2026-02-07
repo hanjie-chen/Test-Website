@@ -8,6 +8,10 @@ Rendered_Articles = os.environ.get("RENDERED_ARTICLES_DIRECTORY", "/articles/ren
 # sqlite database uri (allow override for safe testing)
 SQLALCHEMY_DATABASE_URI = os.environ.get("SQLALCHEMY_DATABASE_URI", "sqlite:///project.db")
 
+# token for internal reimport endpoint
+REIMPORT_ARTICLES_TOKEN = os.environ.get("REIMPORT_ARTICLES_TOKEN", "")
+
+
 # app environment
 APP_ENV = os.environ.get("APP_ENV", os.environ.get("FLASK_ENV", "production")).lower()
 IS_DEV = APP_ENV in ("development", "dev")
