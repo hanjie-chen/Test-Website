@@ -43,15 +43,14 @@ docker compose -f compose.yml -f compose.dev.yml up
 ```
 docker compose exec -T web-app python scripts/init_db.py
 ```
-
-这样子使用 gunicorn 开多个实例就不会报错了
+否则使用，gunicorn 开多个实例就会因为同时建表报错了
 
 - 日常更新由 `articles-sync` 触发：
   - `articles-sync` 完成 `git pull` 后会调用 web-app 内部接口触发 reindex
   - reindex 会增量更新文章与 HTML（不会清空数据库）
   - 需要在 `.env` 中配置 `REIMPORT_ARTICLES_TOKEN`
 
-`.env` 示例（不要提交到 Git）：
+`.env` 示例（用于出发文章同步）：
 ```
 REIMPORT_ARTICLES_TOKEN=change-me
 ```
@@ -61,16 +60,10 @@ REIMPORT_ARTICLES_TOKEN=change-me
 ```
 └───python-learn
     ├───python-language
-    │   ├───Python_Basic
-    │   └───Python_Philosophy
     ├───python-package
     │   ├───Flask
     │   │   └───images
-    │   ├───flask-sqlalchemy
-    │   │   └───images
-    │   ├───frontmatter+yaml
-    │   ├───SQLAlchemy
-    │   │   └───images
+    │   ...
     │   └───standard-library
     │       ├───re
     │       │   └───images

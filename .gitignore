@@ -13,3 +13,4 @@ articles-data-test/
 # igonre the logs which host on the 
 logs/
 .env
+nginx-modsecurity/.htpasswd
