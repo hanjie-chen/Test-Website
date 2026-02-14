@@ -14,3 +14,4 @@ articles-data-test/
 logs/
 .env
 nginx-modsecurity/.htpasswd
+nginx-modsecurity/ssl/

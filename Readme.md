@@ -11,6 +11,12 @@ articles-sync container 用于管理我的 markdown 笔记文章, 使用 alpine:
 使用 owasp/modsecurity-crs:nginx-alpine container 作为反向代理，暴露80端口在外
 并且使用其默认的 waf 来拦截一些恶意流量
 
+其中 `.htpasswd` 文件用于接入 dozzle 作为后台 log 的查看，内容可以由下面的代码生成
+
+```
+docker run --rm httpd:2.4-alpine htpasswd -nbB <username> <password>
+```
+
 未来考虑：
 将 rendered-articles 作为一个 volume 挂载在 /usr/share/nginx/html 下面，将其作为 document root
 但是在 web-app 中会直接读取 /rendered-articles 中的 html 然后以字符串的方式将 html 传递给 articles_details.html 完成渲染，所以这个地方使用nginx的document root, 需要修改其逻辑以方便 nginx 提供静态服务
