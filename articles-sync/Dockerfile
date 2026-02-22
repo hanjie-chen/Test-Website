@@ -4,8 +4,8 @@ FROM alpine:3.21
 ARG USER_ID=1000
 ARG GROUP_ID=1000
 
-# install git, dcron, tini, curl
-RUN apk add --no-cache git dcron tini curl
+# install git, dcron, tini, curl, su-exec
+RUN apk add --no-cache git dcron tini curl su-exec
 
 # create a group(appgroup) and user(appuser) with args
 RUN addgroup -g ${GROUP_ID} -S appgroup && \
@@ -19,18 +19,11 @@ RUN mkdir -p /var/log/personal-website && \
 RUN mkdir -p /articles/src && chown -R appuser:appgroup /articles
 WORKDIR /articles/src
 
-# copy the scripts, provide the permission, and set cron jobs
-COPY --chown=appuser:appgroup update-articles.sh init.sh /usr/local/bin/
+# copy the scripts, provide the permission
+COPY --chown=appuser:appgroup update-articles.sh init.sh cron-heartbeat-sync.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/update-articles.sh && \
-    chmod +x /usr/local/bin/init.sh
-
-# let appuser have permission to run crontab, crond command
-RUN chmod o+x /usr/bin/crontab &&\
-    chmod u+s /usr/sbin/crond  &&\
-    chmod o+x /usr/sbin/crond
-
-# switch the non-root user to run the script
-USER appuser
+    chmod +x /usr/local/bin/init.sh && \
+    chmod +x /usr/local/bin/cron-heartbeat-sync.sh
 
 ENTRYPOINT ["/sbin/tini", "--"]
 CMD ["/usr/local/bin/init.sh"]

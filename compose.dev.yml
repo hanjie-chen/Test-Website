@@ -1,5 +1,15 @@
 services:
+  articles-sync:
+    # Dev override: build locally instead of pulling GHCR image.
+    build:
+      context: ./articles-sync
+      dockerfile: Dockerfile
+
   web-app:
+    # Dev override: build locally instead of pulling GHCR image.
+    build:
+      context: ./web-app
+      dockerfile: Dockerfile
     volumes:
       - ./web-app:/app
       - rendered_html_articles:/articles/rendered

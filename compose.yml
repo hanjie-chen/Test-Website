@@ -8,9 +8,9 @@ services:
   # pull github articles repo once a day
   articles-sync:
     container_name: articles-sync
-    build:
-      context: ./articles-sync
-      dockerfile: Dockerfile
+    # Production image is built/pushed by CI to GHCR.
+    # Local development build can be re-enabled in compose.dev.yml.
+    image: ghcr.io/hanjie-chen/website-articles-sync:latest
     volumes:
       - source_md_articles:/articles/src:rw
     environment:
@@ -24,9 +24,9 @@ services:
   # flask web app container
   web-app:
     container_name: web-app
-    build:
-      context: ./web-app
-      dockerfile: Dockerfile
+    # Production image is built/pushed by CI to GHCR.
+    # Local development build can be re-enabled in compose.dev.yml.
+    image: ghcr.io/hanjie-chen/website-web-app:latest
     volumes:
       - rendered_html_articles:/articles/rendered
       - source_md_articles:/articles/src:ro
